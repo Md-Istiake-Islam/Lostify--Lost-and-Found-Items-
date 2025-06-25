@@ -80,6 +80,7 @@ Lostify simplifies the process of recovering lost items by offering a centralize
   "sweetalert2": "^11.21.2",
   "tailwindcss": "^4.1.7"
 }
+```
 
 ##🧪 Local Development Setup
 
