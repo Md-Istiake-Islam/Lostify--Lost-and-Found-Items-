@@ -59,17 +59,73 @@ Lostify simplifies the process of recovering lost items by offering a centralize
 
 ---
 
-## 📁 Project Structure
+## 📦 Dependencies
 
-```bash
-lostify-app/
-├── client/           # React frontend
-│   ├── src/
-│   ├── public/
-│   └── ...
-├── server/           # Node.js backend
-│   ├── routes/
-│   ├── controllers/
-│   ├── models/
-│   └── index.js
-└── README.md
+### Client
+
+```json
+{
+  "@heroicons/react": "^2.2.0",
+  "@tailwindcss/vite": "^4.1.7",
+  "daisyui": "^5.0.35",
+  "dayjs": "^1.11.13",
+  "firebase": "^11.8.0",
+  "lottie-react": "^2.4.1",
+  "react": "^19.1.0",
+  "react-dom": "^19.1.0",
+  "react-icons": "^5.5.0",
+  "react-router": "^7.6.0",
+  "react-toastify": "^11.0.5",
+  "react-tooltip": "^5.28.1",
+  "sweetalert2": "^11.21.2",
+  "tailwindcss": "^4.1.7"
+}
+
+##🧪 Local Development Setup
+
+To run this project locally on your machine, follow the steps below.
+
+###Prerequisites
+
+- Node.js installed
+- MongoDB URI (local or from MongoDB Atlas)
+- Firebase project (for Auth + Hosting)
+- Git installed
+
+### Clone the Repositories
+
+```
+git clone https://github.com/Md-Istiake-Islam/A-Gardening-Community-Resource-Hub.git
+git clone https://github.com/your-username/garden-community-server.git
+```
+### Backend Setup
+
+```
+cd garden-community-server
+npm install
+```
+### Create a .env file in the root of the server directory and add:
+
+```
+PORT=5000
+MONGODB_URI=your_mongodb_connection_string
+```
+### Start the server:
+
+```
+node index.js
+```
+
+### Frontend Setup
+
+```
+cd ../garden-community-client
+npm install
+```
+### Make sure Firebase configuration is correctly set inside your firebase.config.js file, or via environment variables.
+
+### Start the development server:
+
+```
+npm run dev
+```
