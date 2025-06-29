@@ -6,7 +6,7 @@ Lostify is a full-stack web application that allows users to report **lost or fo
 
 ## 🔗 Live URL
 
-[[vesit](https://lostify-app-1c967.web.app/)]
+[Visit web site](https://lostify-app-1c967.web.app/)
 
 ---
 
