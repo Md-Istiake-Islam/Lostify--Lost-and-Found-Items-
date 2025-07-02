@@ -22,7 +22,7 @@ const LatestPost = () => {
    useEffect(() => {
       const fetchData = async () => {
          setLoading(true);
-         const itemData = await fetchLatestPost("6");
+         const itemData = await fetchLatestPost("8");
          setDisplayItemsData(itemData);
          setLoading(false);
       };
@@ -30,23 +30,21 @@ const LatestPost = () => {
    }, []);
 
    return (
-      <div className="container lg:max-w-8xl mx-auto relative mb-10 px-2 lg:px-0">
-         <div className="">
-            <h1 className="text-3xl font-bold !font-source-serif mb-5 border-b border-primary border-dashed pb-3 max-w-lg">
+      <div className="container 2xl:max-w-8xl mx-auto relative mb-10 px-2 lg:px-0">
+         <div className=" flex flex-col justify-center items-center">
+            <h1 className="text-3xl font-bold !font-source-serif mb-5 border-b border-primary border-dashed pb-3 min-w-lg text-center">
                Browse All{" "}
                <span className="text-primary !font-source-serif">
                   Latest Posts
                </span>
             </h1>
-            <p className="line-clamp-2 text-gray-500 text-sm mb-10">
+            <p className="line-clamp-2 text-gray-600 text-sm mb-10 text-center">
                Browse all reported lost and found items shared by our community.
-               Use the search bar to filter by title or location, and sort posts
-               by the most recent to quickly find what you're looking for. If
-               you've lost or found something, consider adding your own post to
-               help reconnect items with their owners.
+               If you've lost or found something, consider adding your own post
+               to help reconnect items with their owners.
             </p>
          </div>
-         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-6 rounded-lg mb-10">
+         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 py-6 rounded-lg mb-10">
             {loading ? (
                <div className="fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
                   <LoadingSpinner></LoadingSpinner>

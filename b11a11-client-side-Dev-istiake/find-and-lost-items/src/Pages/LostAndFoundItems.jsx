@@ -1,12 +1,11 @@
 import React, { Suspense, useState, useEffect } from "react";
-import { useLoaderData, useLocation } from "react-router";
+import { useLoaderData, useLocation, useParams } from "react-router";
 
 import { BsFilterLeft } from "react-icons/bs";
 import LoadingSpinner from "../Components/LoadingSpinner";
 import ItemsCard from "../Components/AllLostAndFoundItems/ItemsCard";
 import axios from "axios";
 import useTitle from "../Hooks/useTitle";
-import { div } from "motion/react-client";
 
 //get categorize data promise
 const getItemsData = async (category) => {
@@ -124,7 +123,7 @@ const LostAndFoundItems = () => {
                ></path>
             </svg>
          </div>
-         <div className="container lg:max-w-8xl mx-auto relative pb-10 px-2 lg:px-0">
+         <div className="container lg:max-w-8xl mx-auto relative pb-10 px-2 lg:px-0 min-h-[calc(100vh-150px)]">
             <div className="mt-20">
                <h1 className="text-3xl font-bold !font-source-serif mb-8 border-b border-primary border-dashed pb-3 max-w-lg">
                   Browse All{" "}
@@ -210,7 +209,7 @@ const LostAndFoundItems = () => {
             <div
                className={`grid ${
                   displayItemsData.length > 0
-                     ? " grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+                     ? " grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
                      : "grid-cols-1"
                } gap-6 shadow-md p-6 bg-[#14b0bb50] rounded-lg mb-20`}
             >

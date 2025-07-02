@@ -79,7 +79,7 @@ const Navbar = () => {
                   "!font-nunito px-4 py-0.5 rounded-lg hover:text-primary"
                }
             >
-               Tips
+               Safety Tips
             </NavLink>
          </li>
          <li>

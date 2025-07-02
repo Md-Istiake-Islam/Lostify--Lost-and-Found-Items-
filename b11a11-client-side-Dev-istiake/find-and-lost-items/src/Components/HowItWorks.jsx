@@ -34,7 +34,7 @@ const HowItWorks = () => {
                ></path>
             </svg>
          </div>
-         <div className="py-30 bg-[#f9fafe]">
+         <div className="pb-30">
             <div className="max-w-7xl mx-auto px-4 text-center relative z-10">
                <h2
                   id="how-it-works-title"

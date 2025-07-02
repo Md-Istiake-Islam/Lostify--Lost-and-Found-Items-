@@ -30,7 +30,7 @@ const ItemsCard = ({ item }) => {
                />
             </figure>
             <div className="card-body pb-2 pr-0.5 pl-3 ">
-               <h2 className="cline-clamp-1 ard-title text-1xl lg:text-2xl mb-1 text-gray-700">
+               <h2 className="line-clamp-1 ard-title text-xl lg:text-1xl mb-1 text-gray-700">
                   {title}
                </h2>
                <p className="flex items-center gap-2 mt-1 text-xs lg:text-base text-gray-500">
@@ -43,16 +43,16 @@ const ItemsCard = ({ item }) => {
                      <IoLocationOutline className="text-primary text-lg" />
                      <samp className="line-clamp-1">{location}</samp>
                   </p>
-                  <p className="flex items-center gap-2 text-xs lg:text-sm justify-end text-gray-500 min-w-[32%]">
+                  {/* <p className="flex items-center gap-2 text-xs lg:text-sm justify-end text-gray-500 min-w-[32%]">
                      {" "}
                      <IoIosTimer className="text-primary text-lg" />
                      {date}
-                  </p>
+                  </p> */}
                </div>
                <div className="card-actions justify-end">
                   <button
                      onClick={() => navigate(`./../items/${_id}`)}
-                     className="btn btn-primary text-white px-6"
+                     className="btn btn-primary text-white px-3"
                   >
                      View Details
                   </button>

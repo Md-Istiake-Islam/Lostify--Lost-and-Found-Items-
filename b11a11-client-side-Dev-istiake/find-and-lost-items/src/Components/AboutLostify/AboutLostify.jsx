@@ -6,9 +6,9 @@ import { Link } from "react-router";
 
 const AboutLostify = () => {
    return (
-      <div className="container lg:max-w-7xl mx-auto">
-         <div className="grid grid-cols-1 lg:grid-cols-2 w-full h-[660px] sm:h-[780px] lg:h-[480px] gap-6 lg-gap-0">
-            <div className="flex flex-col justify-center items-start px-5 lg:px-20">
+      <div className="container 2xl:max-w-7xl mx-auto">
+         <div className="grid grid-cols-1 xl:grid-cols-2 w-full h-[660px] sm:h-[780px] lg:h-[480px] gap-6 lg-gap-0">
+            <div className="flex flex-col justify-center items-start  2xl:px-20">
                <h3 className="text-2.6xl lg:text-4xl !font-nunito text-[#808080]  mb-1 mt-10">
                   The Online Avenue to Reunion
                </h3>

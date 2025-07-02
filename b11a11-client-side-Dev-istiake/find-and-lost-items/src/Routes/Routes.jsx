@@ -63,6 +63,20 @@ const Routes = createBrowserRouter([
             },
          },
          {
+            path: "categorize-item/:cat",
+            Component: LostAndFoundItems,
+            hydrateFallbackElement: <LoadingSpinner />,
+            loader: async ({ params }) => {
+               const encodedCategory = encodeURIComponent(params.cat);
+               const res = await axios.get(
+                  `${
+                     import.meta.env.VITE_serverUrl
+                  }/categorizePostItem/?category=${encodedCategory}`
+               );
+               return res.data;
+            },
+         },
+         {
             path: "items/:id",
             element: (
                <PrivateRoutes>
