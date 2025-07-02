@@ -7,7 +7,7 @@ import { Link } from "react-router";
 //get categorize data promise
 const fetchLatestPost = async (value) => {
    const res = await axios.get(
-      `https://b11a11-server-side-dev-istiake.vercel.app/latestPost/?limit=${value}`
+      `${import.meta.env.VITE_serverUrl}/latestPost/?limit=${value}`
    );
    return res.data;
 };

@@ -33,7 +33,7 @@ const Login = () => {
             setUser(user);
             Swal.fire({
                title: "signin successfully",
-               html: "<p class='swal-text'>Thank you stay with us!</p>",
+               html: "<p className='swal-text'>Thank you stay with us!</p>",
                icon: "success",
                draggable: true,
             });
@@ -44,7 +44,7 @@ const Login = () => {
             if (errorMessage) {
                Swal.fire({
                   title: "Wrong Credentials",
-                  html: `<p class='swal-text'>${errorMessage}</p>`,
+                  html: `<p className='swal-text'>${errorMessage}</p>`,
                   icon: "error",
                   draggable: true,
                });
@@ -65,12 +65,9 @@ const Login = () => {
                email,
                photo: photoURL,
             };
-            fetch(
-               `https://b11a11-server-side-dev-istiake.vercel.app/users/?email=${email}`,
-               {
-                  credentials: "include",
-               }
-            )
+            fetch(`${import.meta.env.VITE_serverUrl}/users/?email=${email}`, {
+               credentials: "include",
+            })
                .then((res) => res.json())
                .then((data) => {
                   if (data) {
@@ -85,16 +82,13 @@ const Login = () => {
                .catch((error) => {
                   const errorMessage = error.message;
                   if (errorMessage) {
-                     fetch(
-                        "https://b11a11-server-side-dev-istiake.vercel.app/users",
-                        {
-                           method: "POST",
-                           headers: {
-                              "content-type": "application/json",
-                           },
-                           body: JSON.stringify(userData),
-                        }
-                     )
+                     fetch(`${import.meta.env.VITE_serverUrl}/users`, {
+                        method: "POST",
+                        headers: {
+                           "content-type": "application/json",
+                        },
+                        body: JSON.stringify(userData),
+                     })
                         .then((res) => res.json())
                         .then((data) => {
                            if (data.insertedId) {
@@ -116,7 +110,7 @@ const Login = () => {
             if (errorMessage) {
                Swal.fire({
                   title: "Your account created successfully",
-                  html: `<p class='swal-text'>${errorMessage}</p>`,
+                  html: `<p className='swal-text'>${errorMessage}</p>`,
                   icon: "error",
                   draggable: true,
                });

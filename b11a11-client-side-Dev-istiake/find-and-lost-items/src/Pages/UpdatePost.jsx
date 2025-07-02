@@ -103,7 +103,7 @@ const UpdatePost = () => {
 
       axios
          .put(
-            `https://b11a11-server-side-dev-istiake.vercel.app/updateUserPost/?id=${_id}`,
+            `${import.meta.env.VITE_serverUrl}/updateUserPost/?id=${_id}`,
             updateData,
             {
                withCredentials: true,
@@ -113,14 +113,14 @@ const UpdatePost = () => {
             if (res.data.matchedCount && res.data.modifiedCount === 0) {
                Swal.fire({
                   title: "No Update Found!",
-                  html: `<p class='swal-text'>No changes detected. Please modify some details and try again.</p>`,
+                  html: `<p className='swal-text'>No changes detected. Please modify some details and try again.</p>`,
                   icon: "error",
                   draggable: true,
                });
             } else if (res.data.matchedCount && res.data.modifiedCount > 0) {
                Swal.fire({
                   title: "Successful!",
-                  html: `<p class='swal-text'>Your ${postType} item has been Updated Successfully!</p>`,
+                  html: `<p className='swal-text'>Your ${postType} item has been Updated Successfully!</p>`,
                   icon: "success",
                   draggable: true,
                });

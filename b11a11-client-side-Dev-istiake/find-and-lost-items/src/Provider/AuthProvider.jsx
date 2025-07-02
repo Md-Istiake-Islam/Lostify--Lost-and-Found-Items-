@@ -47,13 +47,9 @@ const AuthProvider = ({ children }) => {
          if (currentUser?.email) {
             const userData = { email: currentUser.email };
             axios
-               .post(
-                  "https://b11a11-server-side-dev-istiake.vercel.app/jwt",
-                  userData,
-                  {
-                     withCredentials: true,
-                  }
-               )
+               .post(`${import.meta.env.VITE_serverUrl}/jwt`, userData, {
+                  withCredentials: true,
+               })
                .then((res) => {
                   console.log(res.data);
                })

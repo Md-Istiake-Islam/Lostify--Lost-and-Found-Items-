@@ -14,6 +14,9 @@ import MyItems from "../Pages/MyItems";
 import UpdatePost from "../Pages/UpdatePost";
 import RecoveredItems from "../Pages/RecoveredItems";
 import PageNotFound from "../Components/PageNotFound/PageNotFound";
+import SafetyTips from "../Pages/SafetyTips";
+import AboutUs from "../Pages/AboutUs";
+import ContactUs from "../Pages/ContactUs";
 
 const Routes = createBrowserRouter([
    {
@@ -27,7 +30,7 @@ const Routes = createBrowserRouter([
             hydrateFallbackElement: <LoadingSpinner></LoadingSpinner>,
             loader: async () => {
                const res = await fetch(
-                  "https://b11a11-server-side-dev-istiake.vercel.app/sliderItems"
+                  `${import.meta.env.VITE_serverUrl}/sliderItems`
                );
                return res.json();
             },
@@ -54,7 +57,7 @@ const Routes = createBrowserRouter([
             hydrateFallbackElement: <LoadingSpinner />,
             loader: async () => {
                const res = await fetch(
-                  "https://b11a11-server-side-dev-istiake.vercel.app/postItems"
+                  `${import.meta.env.VITE_serverUrl}/postItems`
                );
                return res.json();
             },
@@ -69,7 +72,9 @@ const Routes = createBrowserRouter([
             hydrateFallbackElement: <LoadingSpinner />,
             loader: async ({ params }) => {
                const res = await axios.get(
-                  `https://b11a11-server-side-dev-istiake.vercel.app/viewDetails/?id=${params.id}`,
+                  `${import.meta.env.VITE_serverUrl}/viewDetails/?id=${
+                     params.id
+                  }`,
                   {
                      withCredentials: true,
                   }
@@ -96,7 +101,7 @@ const Routes = createBrowserRouter([
             loader: async ({ params }) => {
                const id = params.id;
                const res = await axios.get(
-                  `https://b11a11-server-side-dev-istiake.vercel.app/viewDetails/?id=${id}`,
+                  `${import.meta.env.VITE_serverUrl}/viewDetails/?id=${id}`,
                   { withCredentials: true }
                );
                return res.data;
@@ -112,13 +117,25 @@ const Routes = createBrowserRouter([
             hydrateFallbackElement: <LoadingSpinner />,
             loader: async () => {
                const res = await axios.get(
-                  "https://b11a11-server-side-dev-istiake.vercel.app/recoveredItems",
+                  `${import.meta.env.VITE_serverUrl}/recoveredItems`,
                   {
                      withCredentials: true,
                   }
                );
                return res.data;
             },
+         },
+         {
+            path: "tips",
+            Component: SafetyTips,
+         },
+         {
+            path: "about-us",
+            Component: AboutUs,
+         },
+         {
+            path: "contact-us",
+            Component: ContactUs,
          },
       ],
    },

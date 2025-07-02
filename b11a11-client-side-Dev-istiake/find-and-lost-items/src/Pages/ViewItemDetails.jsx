@@ -69,12 +69,9 @@ const ViewItemDetails = () => {
    useEffect(() => {
       const email = user ? user.email : null;
       if (user) {
-         fetch(
-            `https://b11a11-server-side-dev-istiake.vercel.app/users/?email=${email}`,
-            {
-               credentials: "include",
-            }
-         )
+         fetch(`${import.meta.env.VITE_serverUrl}/users/?email=${email}`, {
+            credentials: "include",
+         })
             .then((res) => res.json())
             .then((data) => {
                if (data) {
@@ -88,9 +85,7 @@ const ViewItemDetails = () => {
    const [latestPosts, setLatestPosts] = useState([]);
 
    useEffect(() => {
-      fetch(
-         "https://b11a11-server-side-dev-istiake.vercel.app/latestPost/?limit=6"
-      )
+      fetch(`${import.meta.env.VITE_serverUrl}/latestPost/?limit=6`)
          .then((res) => res.json())
          .then((data) => {
             setLatestPosts(data);
@@ -145,7 +140,7 @@ const ViewItemDetails = () => {
       //post recover data
       axios
          .post(
-            "https://b11a11-server-side-dev-istiake.vercel.app/recoveredItems",
+            `${import.meta.env.VITE_serverUrl}/recoveredItems`,
             recoveredItem,
             {
                withCredentials: true,
@@ -155,7 +150,7 @@ const ViewItemDetails = () => {
             if (res.data.insertedId) {
                Swal.fire({
                   title: "Successful!",
-                  html: `<p class='swal-text'>Your ${postType} item has been Submitted Successfully!</p>`,
+                  html: `<p className='swal-text'>Your ${postType} item has been Submitted Successfully!</p>`,
                   icon: "success",
                   draggable: true,
                });
@@ -186,7 +181,7 @@ const ViewItemDetails = () => {
 
       axios
          .patch(
-            `https://b11a11-server-side-dev-istiake.vercel.app/updatePost/?id=${_id}`,
+            `${import.meta.env.VITE_serverUrl}/updatePost/?id=${_id}`,
             statusUpdate,
             {
                withCredentials: true,

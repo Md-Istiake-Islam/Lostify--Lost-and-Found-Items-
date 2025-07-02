@@ -19,12 +19,9 @@ const Navbar = () => {
    useEffect(() => {
       const email = user ? user.email : null;
       if (user) {
-         fetch(
-            `https://b11a11-server-side-dev-istiake.vercel.app/users/?email=${email}`,
-            {
-               credentials: "include",
-            }
-         )
+         fetch(`${import.meta.env.VITE_serverUrl}/users/?email=${email}`, {
+            credentials: "include",
+         })
             .then((res) => res.json())
             .then((data) => {
                if (data) {
@@ -46,7 +43,7 @@ const Navbar = () => {
          .catch((error) => {
             Swal.fire({
                title: "Failed to logout",
-               html: `<p class='swal-text'>${error.message}</p>`,
+               html: `<p className='swal-text'>${error.message}</p>`,
                icon: "error",
                draggable: true,
             });
@@ -73,6 +70,36 @@ const Navbar = () => {
                }
             >
                Lost & Found Items
+            </NavLink>
+         </li>
+         <li>
+            <NavLink
+               to={`./tips`}
+               className={
+                  "!font-nunito px-4 py-0.5 rounded-lg hover:text-primary"
+               }
+            >
+               Tips
+            </NavLink>
+         </li>
+         <li>
+            <NavLink
+               to={`./about-us`}
+               className={
+                  "!font-nunito px-4 py-0.5 rounded-lg hover:text-primary"
+               }
+            >
+               About Us
+            </NavLink>
+         </li>
+         <li>
+            <NavLink
+               to={`./contact-us`}
+               className={
+                  "!font-nunito px-4 py-0.5 rounded-lg hover:text-primary"
+               }
+            >
+               Contact Us
             </NavLink>
          </li>
       </>

@@ -88,18 +88,14 @@ const AddLostAndFindItem = () => {
       };
 
       axios
-         .post(
-            "https://b11a11-server-side-dev-istiake.vercel.app/postItems",
-            postData,
-            {
-               withCredentials: true,
-            }
-         )
+         .post(`${import.meta.env.VITE_serverUrl}/postItems`, postData, {
+            withCredentials: true,
+         })
          .then((res) => {
             if (res.data.insertedId) {
                Swal.fire({
                   title: "Successful!",
-                  html: `<p class='swal-text'>Your ${postType} item has been Submitted Successfully!</p>`,
+                  html: `<p className='swal-text'>Your ${postType} item has been Submitted Successfully!</p>`,
                   icon: "success",
                   draggable: true,
                });

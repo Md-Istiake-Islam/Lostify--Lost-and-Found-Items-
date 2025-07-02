@@ -62,7 +62,7 @@ const Register = () => {
          .then((result) => {
             const user = result.user;
             setUser(user);
-            fetch("https://b11a11-server-side-dev-istiake.vercel.app/users", {
+            fetch(`${import.meta.env.VITE_serverUrl}/users`, {
                method: "POST",
                headers: {
                   "content-type": "application/json",
@@ -74,7 +74,7 @@ const Register = () => {
                   if (data.insertedId) {
                      Swal.fire({
                         title: "Your account created successfully",
-                        html: "<p class='swal-text'>Thank you for creating an account with us!</p>",
+                        html: "<p className='swal-text'>Thank you for creating an account with us!</p>",
                         icon: "success",
                         draggable: true,
                      });
@@ -87,7 +87,7 @@ const Register = () => {
             if (errorMessage) {
                Swal.fire({
                   title: "Your account already registered",
-                  html: `<p class='swal-text'>${errorMessage}</p>`,
+                  html: `<p className='swal-text'>${errorMessage}</p>`,
                   icon: "error",
                   draggable: true,
                });
@@ -108,12 +108,9 @@ const Register = () => {
                email,
                photo: photoURL,
             };
-            fetch(
-               `https://b11a11-server-side-dev-istiake.vercel.app/users/?email=${email}`,
-               {
-                  credentials: "include",
-               }
-            )
+            fetch(`${import.meta.env.VITE_serverUrl}/users/?email=${email}`, {
+               credentials: "include",
+            })
                .then((res) => res.json())
                .then((data) => {
                   if (data) {
@@ -128,16 +125,13 @@ const Register = () => {
                .catch((error) => {
                   const errorMessage = error.message;
                   if (errorMessage) {
-                     fetch(
-                        "https://b11a11-server-side-dev-istiake.vercel.app/users",
-                        {
-                           method: "POST",
-                           headers: {
-                              "content-type": "application/json",
-                           },
-                           body: JSON.stringify(userData),
-                        }
-                     )
+                     fetch(`${import.meta.env.VITE_serverUrl}/users`, {
+                        method: "POST",
+                        headers: {
+                           "content-type": "application/json",
+                        },
+                        body: JSON.stringify(userData),
+                     })
                         .then((res) => res.json())
                         .then((data) => {
                            if (data.insertedId) {
@@ -159,7 +153,7 @@ const Register = () => {
             if (errorMessage) {
                Swal.fire({
                   title: "Your account created successfully",
-                  html: `<p class='swal-text'>${errorMessage}</p>`,
+                  html: `<p className='swal-text'>${errorMessage}</p>`,
                   icon: "error",
                   draggable: true,
                });

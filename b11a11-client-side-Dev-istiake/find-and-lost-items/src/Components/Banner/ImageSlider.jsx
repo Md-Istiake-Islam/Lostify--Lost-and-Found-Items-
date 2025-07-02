@@ -6,7 +6,7 @@ const ImageSlider = ({ item, index, sliderLength }) => {
    return (
       <div id={`slide${index + 1}`} className="carousel-item relative w-full">
          <div
-            className="hero min-h-[calc(100vh-150px)]"
+            className="hero min-h-[70vh]"
             style={{
                backgroundImage: `url(${backgroundImage})`,
             }}

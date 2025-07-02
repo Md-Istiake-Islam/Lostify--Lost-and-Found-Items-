@@ -9,7 +9,7 @@ const RootLayout = () => {
          <section className="sticky w-full z-20 top-0">
             <Navbar></Navbar>
          </section>
-         <section className="">
+         <section>
             <Outlet></Outlet>
          </section>
          <section>
