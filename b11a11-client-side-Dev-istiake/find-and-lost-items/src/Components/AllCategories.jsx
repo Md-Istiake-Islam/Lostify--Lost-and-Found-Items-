@@ -38,13 +38,10 @@ const AllCategories = () => {
                Get Your Desired Product from Featured Category!
             </p>
          </div>
-         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {categories.map((cat, idx) => (
-               <Link to={`./categorize-item/${cat.name}`}>
-                  <div
-                     key={idx}
-                     className="flex flex-col items-center gap-4 bg-base-100 border-l-4 border-[#14b1bb] shadow-md p-6 rounded-lg hover:shadow-lg hover:scale-[1.02] transition-transform duration-300 ease-in-out"
-                  >
+               <Link key={idx} to={`./categorize-item/${cat.name}`}>
+                  <div className="flex flex-col items-center gap-4 bg-base-100 border-l-4 border-[#14b1bb] shadow-md p-6 rounded-lg hover:shadow-lg hover:scale-[1.02] transition-transform duration-300 ease-in-out">
                      <div className="text-[#14b1bb] text-3xl">{cat.icon}</div>
                      <h3 className=" font-medium text-gray-800">{cat.name}</h3>
                   </div>

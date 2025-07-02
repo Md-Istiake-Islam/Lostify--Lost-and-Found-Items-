@@ -20,9 +20,11 @@ const HomePage = () => {
          <section className="flex">
             <Banner sliderData={sliderData}></Banner>
          </section>
-         <section className="bg-base-200 py-14 lg:py-24">
-            <AboutLostify></AboutLostify>
-         </section>
+         {
+            <section className="bg-base-200 py-10 xl:py-24">
+               <AboutLostify></AboutLostify>
+            </section>
+         }
          <section className="bg-base-200 ">
             <MarqueeSection></MarqueeSection>
          </section>

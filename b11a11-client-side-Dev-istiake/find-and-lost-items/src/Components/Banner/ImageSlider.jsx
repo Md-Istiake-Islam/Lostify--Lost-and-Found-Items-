@@ -1,8 +1,10 @@
 import React from "react";
 import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
+import { useNavigate } from "react-router";
 
 const ImageSlider = ({ item, index, sliderLength }) => {
-   const { title, subtitle, buttonText, description, backgroundImage } = item;
+   const navigate = useNavigate();
+   const { title, subtitle, description, backgroundImage } = item;
    return (
       <div id={`slide${index + 1}`} className="carousel-item relative w-full">
          <div
@@ -23,8 +25,11 @@ const ImageSlider = ({ item, index, sliderLength }) => {
                   <p className="line-clamp-2 mb-2 max-w-xl lg:max-w-4xl text-sm lg:text-base ">
                      {description}
                   </p>
-                  <button className="btn border border-white bg-transparent text-white shadow-none hover:bg-primary hover:border-primary px-5 xl:px-8 py-3 xl:py-6 mt-4">
-                     {buttonText}
+                  <button
+                     onClick={() => navigate("./addItems")}
+                     className="btn border border-white bg-transparent text-white shadow-none hover:bg-primary hover:border-primary px-5 xl:px-8 py-3 xl:py-6 mt-4"
+                  >
+                     Report a lost Item
                   </button>
                </div>
             </div>
