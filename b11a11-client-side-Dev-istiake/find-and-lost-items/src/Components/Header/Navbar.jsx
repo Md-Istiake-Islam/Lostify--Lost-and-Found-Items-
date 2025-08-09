@@ -121,7 +121,7 @@ const Navbar = () => {
       <>
          <li className="!px-2">
             <NavLink
-               to={`./addItems`}
+               to={`./user-profile`}
                className={
                   "!font-source-serif4 mt-2 mb-1 gap-3 hover:text-primary !py-2.5 rounded-lg text-gray-700"
                }

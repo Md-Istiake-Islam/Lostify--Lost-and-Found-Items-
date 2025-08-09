@@ -17,6 +17,7 @@ import PageNotFound from "../Components/PageNotFound/PageNotFound";
 import SafetyTips from "../Pages/SafetyTips";
 import AboutUs from "../Pages/AboutUs";
 import ContactUs from "../Pages/ContactUs";
+import UserProfilePage from "../Pages/ProfilePage";
 
 const Routes = createBrowserRouter([
    {
@@ -138,6 +139,10 @@ const Routes = createBrowserRouter([
                );
                return res.data;
             },
+         },
+         {
+            path: "user-profile",
+            Component: UserProfilePage,
          },
          {
             path: "tips",

@@ -17,7 +17,7 @@ const ToggleThemeProvider = ({ children }) => {
       localStorage.setItem("theme", newTheme);
    };
    <button onClick={toggleTheme} className="btn btn-sm btn-outline">
-      {theme === "light" ? "🌙 Dark" : "☀️ Light"}
+      {theme === "light" ? "Dark" : "Light"}
    </button>;
 
    const ThemeData = {
