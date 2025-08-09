@@ -16,6 +16,7 @@ const provider = new GoogleAuthProvider();
 const AuthProvider = ({ children }) => {
    const [user, setUser] = useState(null);
    const [loading, setLoading] = useState(true);
+   const [jwtReady, setJwtReady] = useState(false);
 
    // Function to create new user
    const createUser = (email, password) => {
@@ -41,21 +42,24 @@ const AuthProvider = ({ children }) => {
    };
 
    useEffect(() => {
-      const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
+      const unSubscribe = onAuthStateChanged(auth, async (currentUser) => {
          setUser(currentUser);
          setLoading(false);
          if (currentUser?.email) {
             const userData = { email: currentUser.email };
-            axios
-               .post(`${import.meta.env.VITE_serverUrl}/jwt`, userData, {
-                  withCredentials: true,
-               })
-               .then((res) => {
-                  console.log(res.data);
-               })
-               .catch((error) => {
-                  console.log(error.message);
-               });
+            try {
+               const res = await axios.post(
+                  `${import.meta.env.VITE_serverUrl}/jwt`,
+                  userData,
+                  { withCredentials: true }
+               );
+
+               if (res.data.success) {
+                  setJwtReady(true);
+               }
+            } catch (error) {
+               console.log(error.message);
+            }
          }
       });
       // Cleanup subscription on unmount
@@ -74,6 +78,7 @@ const AuthProvider = ({ children }) => {
       signIn,
       logOut,
       googleSignIn,
+      jwtReady,
    };
 
    return <AuthContext value={AuthData}>{children}</AuthContext>;

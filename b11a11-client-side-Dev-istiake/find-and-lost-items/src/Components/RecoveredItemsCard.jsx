@@ -34,13 +34,13 @@ const RecoveredItemsCard = ({ item }) => {
                   <TbCategoryPlus className="text-primary text-lg" />
                   <span className="line-clamp-1">{category}</span>
                </p>
-               <div className="flex flex-col 2xl:flex-row gap-2 2xl:items-center w-full justify-between">
+               <div className="flex lg:flex-col 2xl:flex-row gap-2 2xl:items-center w-full justify-between">
                   <p className="flex items-center gap-2 text-xs lg:text-sm text-gray-500 border-b border-dashed border-primary pb-3">
                      {" "}
                      <IoLocationOutline className="text-primary text-lg" />
                      <samp className="line-clamp-1">{recoveredLocation}</samp>
                   </p>
-                  <p className="flex items-center gap-2 text-xs lg:text-sm 2xl:justify-end text-gray-500 pb-3 min-w-[32%]">
+                  <p className="flex items-center gap-2 text-xs lg:text-sm justify-end lg:justify-start 2xl:justify-end text-gray-500 pb-3 min-w-[32%]">
                      {" "}
                      <IoIosTimer className="text-primary text-lg" />
                      {recoveredDate}

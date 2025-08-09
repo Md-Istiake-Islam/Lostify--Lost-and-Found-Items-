@@ -9,27 +9,39 @@ import { CiLogout } from "react-icons/ci";
 import { AuthContext } from "../../Provider/AuthProvider";
 import Swal from "sweetalert2";
 import { Tooltip } from "react-tooltip";
+import axios from "axios";
+import { User } from "lucide-react";
 
 const Navbar = () => {
    const navigate = useNavigate();
-   const { user, logOut } = useContext(AuthContext);
+   const { user, logOut, jwtReady } = useContext(AuthContext);
 
    const [currentUser, setCurrentUser] = useState(null);
 
    useEffect(() => {
-      const email = user ? user.email : null;
-      if (user) {
-         fetch(`${import.meta.env.VITE_serverUrl}/users/?email=${email}`, {
-            credentials: "include",
-         })
-            .then((res) => res.json())
-            .then((data) => {
-               if (data) {
-                  setCurrentUser(data);
-               }
-            });
-      }
-   }, [user]);
+      if (!user || !jwtReady) return;
+
+      const fetchUserData = async () => {
+         try {
+            const res = await axios.get(
+               `${import.meta.env.VITE_serverUrl}/users/?email=${user.email}`,
+               { withCredentials: true }
+            );
+
+            if (res.data) {
+               setCurrentUser(res.data);
+            }
+         } catch (err) {
+            console.error("User fetch error:", err.message);
+         }
+      };
+
+      fetchUserData();
+   }, [user, jwtReady]);
+
+   useEffect(() => {
+      console.log(currentUser, jwtReady);
+   }, [currentUser, jwtReady]);
 
    const handelLogOut = () => {
       logOut()
@@ -107,26 +119,57 @@ const Navbar = () => {
 
    const dpdNavLinks = (
       <>
-         <li className="!px-2 active:bg-[#14b1bb]">
+         <li className="!px-2">
             <NavLink
                to={`./addItems`}
-               className={"!font-source-serif4 mb-1 gap-3 hover:text-primary"}
+               className={
+                  "!font-source-serif4 mt-2 mb-1 gap-3 hover:text-primary !py-2.5 rounded-lg text-gray-700"
+               }
             >
-               <TiDocumentAdd className="text-xl" />
-               Add Lost or Found Item
+               <User className="w-5 h-5" />
+               View Profile
             </NavLink>
          </li>
          <li className="!px-2">
             <NavLink
                to={`./allRecovered`}
-               className={"!font-source-serif4 mb-1 gap-3 hover:text-primary"}
+               className={
+                  "!font-source-serif4 mb-1 gap-3 hover:text-primary !py-2.5 rounded-lg text-gray-700"
+               }
+            >
+               <RiDeviceRecoverLine className="text-xl" />
+               Update Profile
+            </NavLink>
+         </li>
+         <li className="!px-2">
+            <NavLink
+               to={`./addItems`}
+               className={
+                  "!font-source-serif4 mb-1 gap-3 hover:text-primary !py-2.5 rounded-lg text-gray-700"
+               }
+            >
+               <TiDocumentAdd className="text-xl" />
+               Add Lost Items
+            </NavLink>
+         </li>
+         <li className="!px-2">
+            <NavLink
+               to={`./allRecovered`}
+               className={
+                  "!font-source-serif4 mb-1 gap-3 hover:text-primary !py-2.5 rounded-lg text-gray-700"
+               }
             >
                <RiDeviceRecoverLine className="text-xl" />
                All Recovered Items
             </NavLink>
          </li>
-         <li className="!px-2 border-b border-primary pb-2 mb-2 gap-3 hover:text-primary">
-            <NavLink to={`./myItems`} className={"!font-source-serif4  "}>
+         <li className="!px-2 border-b border-gray-100 pb-2 mb-2">
+            <NavLink
+               to={`./myItems`}
+               className={
+                  "!font-source-serif4 gap-3 hover:text-primary !py-2.5 rounded-lg text-gray-700"
+               }
+            >
                <RiAlignItemBottomFill className="text-xl" />
                Manage My Items
             </NavLink>
@@ -200,26 +243,36 @@ const Navbar = () => {
                         <Tooltip id="my-tooltip" className="z-50 text-sm" />
                         <ul
                            tabIndex={0}
-                           className="menu menu-md dropdown-content bg-base-100 rounded-box z-1 mt-3 min-w-96 p-0 pb-2 shadow font-medium top-[62px] rounded-t-none border-primary border border-t-0 origin-top !scale-x-100 !scale-y-0 group-focus-within:!scale-y-100 !block !transition-all !duration-600"
+                           className="menu menu-md dropdown-content bg-base-100 rounded-box z-1 mt-3 min-w-72 p-0 pb-2 shadow font-medium top-[62px] border-gray-100 border border-t-0 origin-top !scale-x-100 !scale-y-0 group-focus-within:!scale-y-100 !block !transition-all !duration-600"
                         >
-                           <li className="!px-2 border-b border-primary mb-4 py-1">
-                              <div className=" flex items-center gap-4 justify-between menu-title ">
-                                 <h1 className="text-lg min-w-22 font-semibold text-primary-content flex gap-2">
-                                    <FaUser className="text-xl mt-0.5" />
-                                    <span className="">
-                                       {currentUser && currentUser.name}
-                                    </span>
-                                 </h1>
-                                 <button className="btn bg-primary rounded-md text-white text-xs ">
-                                    Update to plus
-                                 </button>
+                           <div className="p-4 border-b border-gray-100">
+                              <div className="flex items-center space-x-3">
+                                 {currentUser?.photo ? (
+                                    <img
+                                       src={currentUser?.photo}
+                                       alt={currentUser?.name || "User"}
+                                       className="w-12 h-12 rounded-full object-cover border-2 border-gray-200"
+                                    />
+                                 ) : (
+                                    <div className="w-12 h-12 bg-gradient-to-br from-primary to-blue-400 rounded-full flex items-center justify-center">
+                                       <User className="w-6 h-6 text-white" />
+                                    </div>
+                                 )}
+                                 <div>
+                                    <h3 className="font-semibold text-slate-800 text-lg">
+                                       {currentUser?.name || "User"}
+                                    </h3>
+                                    <p className="text-xs text-gray-600">
+                                       {currentUser?.email}
+                                    </p>
+                                 </div>
                               </div>
-                           </li>
+                           </div>
                            {dpdNavLinks}
                            <li className="!px-2 ">
                               <button
                                  onClick={() => handelLogOut()}
-                                 className="active:bg-primary text-red-600"
+                                 className=" text-red-600 !py-2.5 hover:bg-red-50 rounded-lg"
                               >
                                  <CiLogout className="text-xl font-bold" />
                                  Log out

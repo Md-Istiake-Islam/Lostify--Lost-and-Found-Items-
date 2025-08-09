@@ -54,7 +54,7 @@ const Register = () => {
          fromData.entries()
       );
       const userData = {
-         email,
+         email: email.toLowerCase(),
          ...user,
       };
 

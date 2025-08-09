@@ -256,7 +256,7 @@ const RecoveredItems = () => {
                <div
                   className={`grid ${
                      displayItemsData.length > 0
-                        ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
+                        ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
                         : "grid-cols-1"
                   } gap-6 shadow-md p-6 bg-[#14b0bb50] rounded-lg mb-20 `}
                >
