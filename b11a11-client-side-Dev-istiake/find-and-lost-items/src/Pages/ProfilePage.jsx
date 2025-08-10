@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import { User, Edit3, User2 } from "lucide-react";
 import AccountStatusCard from "../Components/Profile/AccountStatusCard";
 import PersonalInfo from "../Components/Profile/PersonalInfo";
@@ -14,6 +14,11 @@ import QuickActions from "../Components/Profile/QuickActions";
 const UserProfilePage = () => {
    //scroll to top
    useTitle("Profile Status || CareConnect Medical Camp");
+
+   const { pathname } = useLocation();
+   useEffect(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+   }, [pathname]);
 
    const { user, jwtReady } = useContext(AuthContext);
 
@@ -108,11 +113,11 @@ const UserProfilePage = () => {
                      </div>
                   </div>
                   <Link
-                     to={`/dashboard/update-profile`}
+                     to={`./../update-profile`}
                      className="bg-primary text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-300 hover:scale-[1.02] flex items-center space-x-2"
                   >
                      <Edit3 className="w-5 h-5" />
-                     <span>Edit Profile</span>
+                     <span className="hidden lg:block">Edit Profile</span>
                   </Link>
                </div>
             </div>

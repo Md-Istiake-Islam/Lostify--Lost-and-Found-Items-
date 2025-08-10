@@ -1,13 +1,7 @@
 import { Camera, Shield, User } from "lucide-react";
 import React from "react";
 
-const AccountStatusCard = ({
-   profileData,
-   containerStyle,
-   pStyle,
-   textHT,
-   darkMode,
-}) => {
+const AccountStatusCard = ({ profileData, pStyle, textHT, darkMode }) => {
    return (
       <div className="flex items-start space-x-6 mb-8">
          {/* Profile Picture */}
@@ -41,7 +35,7 @@ const AccountStatusCard = ({
             <div className="flex items-center space-x-2">
                <Shield className="w-5 h-5 text-green-600" />
                <span className="text-green-600 font-semibold">
-                  {profileData.accountStatus} Account
+                  User Account
                </span>
             </div>
          </div>

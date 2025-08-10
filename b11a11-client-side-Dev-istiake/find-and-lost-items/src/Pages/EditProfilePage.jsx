@@ -1,32 +1,57 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Link, useNavigate, useParams } from "react-router";
-import { User, Save, AlertCircle } from "lucide-react";
-import useUserInfo from "../../../Hooks/useUserInfo";
-import useTitle from "../../../Hooks/useTitle";
+import { Link, useLocation } from "react-router";
+import { Save, AlertCircle, UserRoundPen, Ban } from "lucide-react";
 import { useForm } from "react-hook-form";
-import ImageField from "../Components/UpdateProfile/ImageField";
+import Swal from "sweetalert2";
+import { AuthContext } from "../Provider/AuthProvider";
+import ThemeContext from "../Provider/ThemeProvider/ThemeContext";
 import NameField from "../Components/UpdateProfile/NameField";
+import AddressField from "../Components/UpdateProfile/AddressField";
 import EmailField from "../Components/UpdateProfile/EmailField";
 import PhoneField from "../Components/UpdateProfile/PhoneField";
 import BirthDate from "../Components/UpdateProfile/BirthDate";
 import GenderField from "../Components/UpdateProfile/GenderField";
 import BloodGroup from "../Components/UpdateProfile/BloodGroup";
-import AddressField from "../Components/UpdateProfile/AddressField";
 import EmergencyContactField from "../Components/UpdateProfile/EmergencyContactField";
-import { useUploadImgToImgBB } from "../../../Hooks/useUploadImgToImgBB";
-import LoadingSpinner from "../../Shared/LoadingElement/LoadingSpinner";
-import Swal from "sweetalert2";
-import AuthContext from "../../../Provider/AuthProvider/AuthContext";
-import useUpdateUserData from "../../../Hooks/useUpdateUserData";
-import ThemeContext from "../../../Provider/ThemeProvider/ThemeContext";
+import axios from "axios";
+import ImageField from "../Components/UpdateProfile/ImageField";
+import useTitle from "../Hooks/useTitle";
+import LoadingSpinner from "../Components/LoadingSpinner";
 
 const EditProfilePage = () => {
    //scroll to top
    useTitle("Update Profile || CareConnect Medical Camp");
 
+   const { pathname } = useLocation();
+   useEffect(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+   }, [pathname]);
+
    // get organizer from auth context
-   const { userInfo, isUserLoading } = useUserInfo();
-   const { user } = useContext(AuthContext);
+   const { user, jwtReady } = useContext(AuthContext);
+
+   const [userInfo, setUserInfo] = useState(null);
+
+   useEffect(() => {
+      if (!user || !jwtReady) return;
+
+      const fetchUserData = async () => {
+         try {
+            const res = await axios.get(
+               `${import.meta.env.VITE_serverUrl}/users/?email=${user.email}`,
+               { withCredentials: true }
+            );
+
+            if (res.data) {
+               setUserInfo(res.data);
+            }
+         } catch (err) {
+            console.error("User fetch error:", err.message);
+         }
+      };
+
+      fetchUserData();
+   }, [user, jwtReady]);
 
    const { theme } = useContext(ThemeContext);
    const [darkMode, setDarkMode] = useState(false);
@@ -50,13 +75,11 @@ const EditProfilePage = () => {
    // get update user ID
 
    const [isLoading, setIsLoading] = useState(false);
-   const { mutateAsync } = useUpdateUserData(user.email);
 
    //use react hook form
    const {
       register,
       handleSubmit,
-      watch,
       reset,
       formState: { errors },
       control,
@@ -73,29 +96,22 @@ const EditProfilePage = () => {
       },
    });
 
-   // hooks for image upload
-   const {
-      uploadImage,
-      loading: imageLoading,
-      error: imgError,
-   } = useUploadImgToImgBB();
-
    useEffect(() => {
-      if (!userInfo || isUserLoading) return;
+      if (!userInfo) return;
 
       reset({
-         name: userInfo?.name || "info not provided",
-         photo: null,
-         phone: userInfo.phone || "info not provided",
-         gender: userInfo.gender || "info not provided",
+         name: userInfo?.name || null,
+         imageUrl: userInfo?.photo || null,
+         phone: userInfo.phone || null,
+         gender: userInfo.gender || null,
          dateObj: userInfo?.date ? new Date(userInfo.date) : null,
-         address: userInfo.address || "info not provided",
-         emergencyContact: userInfo.emergencyContact || "info not provided",
-         bloodGroup: userInfo.bloodGroup || "info not provided",
+         address: userInfo.address || null,
+         emergencyContact: userInfo.emergencyContact || null,
+         bloodGroup: userInfo.bloodGroup || null,
       });
    }, [userInfo, reset]);
 
-   if (!userInfo || isUserLoading) {
+   if (!userInfo) {
       return <LoadingSpinner />;
    }
 
@@ -104,7 +120,7 @@ const EditProfilePage = () => {
       name,
       phone,
       gender,
-      image,
+      imageUrl,
       dateObj,
       address,
       emergencyContact,
@@ -112,26 +128,6 @@ const EditProfilePage = () => {
    }) => {
       try {
          setIsLoading(true);
-
-         //Upload the image
-         const file = image?.[0];
-         let imageUrl = userInfo.photo;
-         console.log("imageUrl 3");
-
-         if (file) {
-            imageUrl = await uploadImage(file);
-         }
-
-         // guard for check if image upload failed
-         if (!imageUrl) {
-            Swal.fire({
-               title: "Failed to upload Image! Try again",
-               html: `<p class='swal-text'>${imgError}</p>`,
-               icon: "error",
-               draggable: true,
-            });
-            return;
-         }
 
          const userData = {
             name,
@@ -144,11 +140,22 @@ const EditProfilePage = () => {
             bloodGroup,
          };
 
+         console.log(userData);
+
          // patch user data to server
-         const res = await mutateAsync(userData);
+         const res = await axios.patch(
+            `${import.meta.env.VITE_serverUrl}/update-user/?email=${
+               user.email
+            }`,
+            userData,
+            {
+               withCredentials: true,
+            }
+         );
+         console.log(res);
 
          // check if user data data is posted successfully
-         if (res?.acknowledged && res?.modifiedCount > 0) {
+         if (res?.data?.acknowledged && res?.data?.modifiedCount > 0) {
             Swal.fire({
                title: "Profile Updated Successfully",
                html: `<p class='swal-text'>Your profile has been updated successfully!</p>`,
@@ -188,23 +195,27 @@ const EditProfilePage = () => {
       >
          <div className="container mx-auto px-4 py-8">
             {/* Header */}
-            <div className="mb-8 max-w-4xl mx-auto">
+            <div className="mb-8 max-w-6xl mx-auto">
                <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
                      <div className="flex gap-4 space-x-3">
-                        <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-green-500 rounded-xl flex items-center justify-center shadow-lg mt-1">
-                           <User className="w-6 h-6 text-white" />
-                        </div>
                         <div>
                            <h1
-                              className={` text-4xl font-bold  mb-2 ${
+                              className={`flex items-center gap-3 text-3xl font-bold mb-5 border-b border-primary border-dashed pb-3 max-w-max pr-14 !font-source-serif ${
                                  darkMode ? "text-white" : "text-slate-800"
                               }`}
                            >
-                              Edit Profile
+                              <div className="w-10 h-10 bg-gradient-to-br from-primary to-blue-500 rounded-full flex items-center justify-center shadow-lg mt-1">
+                                 <UserRoundPen className="w-6 h-6 text-white" />
+                              </div>
+                              Edit
+                              <span className="text-primary !font-source-serif">
+                                 Profile
+                              </span>
                            </h1>
                            <p className={`${pStyle}`}>
-                              Update your personal information
+                              Your personal space to view and manage your
+                              information, preferences, and account details.
                            </p>
                         </div>
                      </div>
@@ -212,40 +223,20 @@ const EditProfilePage = () => {
                </div>
             </div>
 
-            <div className="max-w-4xl mx-auto">
+            <div className="max-w-6xl mx-auto">
                <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-                  {/* Profile Picture Section */}
-                  <div
-                     className={`rounded-2xl shadow-lg p-8 border ${containerStyle}`}
-                  >
-                     <h2 className={`text-2xl font-bold mb-6 ${textHT}`}>
-                        Profile Picture
-                     </h2>
-                     {/* Image Upload */}
-                     <ImageField
-                        errors={errors}
-                        register={register}
-                        watch={watch}
-                        darkMode={darkMode}
-                        pStyle={pStyle}
-                        imagePreviewUrl={userInfo?.photo}
-                     />
-                  </div>
-
                   {/* Personal Information */}
                   <div
-                     className={` rounded-2xl shadow-lg p-8 border ${containerStyle}`}
+                     className={` rounded-2xl shadow-lg px-8 py-10 border ${containerStyle}`}
                   >
-                     <h2 className={`text-2xl font-bold mb-6 ${textHT}`}>
+                     <h2 className={`text-2xl font-bold mb-8 ${textHT}`}>
                         Personal Information
                      </h2>
-                     <div className="grid md:grid-cols-2 gap-6 mb-6">
+                     <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6 mb-6">
                         {/* Display Name */}
                         <NameField
                            errors={errors}
                            register={register}
-                           containerStyle={containerStyle}
-                           pStyle={pStyle}
                            textHT={textHT}
                            darkMode={darkMode}
                         />
@@ -261,8 +252,6 @@ const EditProfilePage = () => {
                         <PhoneField
                            errors={errors}
                            register={register}
-                           containerStyle={containerStyle}
-                           pStyle={pStyle}
                            textHT={textHT}
                            darkMode={darkMode}
                         />
@@ -271,8 +260,6 @@ const EditProfilePage = () => {
                         <BirthDate
                            errors={errors}
                            control={control}
-                           containerStyle={containerStyle}
-                           pStyle={pStyle}
                            textHT={textHT}
                            darkMode={darkMode}
                         />
@@ -281,14 +268,38 @@ const EditProfilePage = () => {
                         <GenderField
                            errors={errors}
                            register={register}
-                           containerStyle={containerStyle}
-                           pStyle={pStyle}
                            textHT={textHT}
                            darkMode={darkMode}
                         />
 
                         {/* Blood Group */}
                         <BloodGroup
+                           errors={errors}
+                           register={register}
+                           textHT={textHT}
+                           darkMode={darkMode}
+                        />
+
+                        {/* Image URL */}
+                        <ImageField
+                           errors={errors}
+                           register={register}
+                           textHT={textHT}
+                           darkMode={darkMode}
+                        />
+
+                        {/* Emergency Contact */}
+                        <EmergencyContactField
+                           errors={errors}
+                           register={register}
+                           containerStyle={containerStyle}
+                           pStyle={pStyle}
+                           textHT={textHT}
+                           darkMode={darkMode}
+                        />
+
+                        {/* Address */}
+                        <AddressField
                            errors={errors}
                            register={register}
                            containerStyle={containerStyle}
@@ -298,56 +309,40 @@ const EditProfilePage = () => {
                         />
                      </div>
 
-                     {/* Emergency Contact */}
-                     <EmergencyContactField
-                        errors={errors}
-                        register={register}
-                        containerStyle={containerStyle}
-                        pStyle={pStyle}
-                        textHT={textHT}
-                        darkMode={darkMode}
-                     />
+                     {/* Submit Controls */}
+                     <div className="w-full flex xl:justify-end gap-5 mt-14">
+                        {/* Cancel Submit  */}
+                        <Link
+                           to="./../user-profile"
+                           className={`xl:max-w-52 flex justify-center gap-3 flex-1 py-3 rounded-lg font-semibold transition-all duration-300 text-center hover:scale-[1.02]  ${
+                              darkMode
+                                 ? "bg-red-600/30 hover:bg-red-600/40 text-red-700"
+                                 : "bg-red-100 hover:bg-red-200 text-red-500"
+                           }`}
+                        >
+                           <Ban className="w-5 h-5" />
+                           Cancel
+                        </Link>
 
-                     {/* Address */}
-                     <AddressField
-                        errors={errors}
-                        register={register}
-                        containerStyle={containerStyle}
-                        pStyle={pStyle}
-                        textHT={textHT}
-                        darkMode={darkMode}
-                     />
-                  </div>
-
-                  {/* Submit Buttons */}
-                  <div className="flex space-x-4">
-                     <Link
-                        to="/dashboard/profile-status"
-                        className={`flex-1  py-4 rounded-xl font-semibold transition-all duration-300 text-center ${
-                           darkMode
-                              ? "bg-gray-600/30 hover:bg-gray-600/40 text-gray-400"
-                              : "bg-gray-100 hover:bg-gray-200 text-gray-700"
-                        }`}
-                     >
-                        Cancel
-                     </Link>
-                     <button
-                        type="submit"
-                        disabled={isLoading}
-                        className="flex-1 bg-gradient-to-r from-blue-600 to-green-500 text-white py-4 rounded-xl font-semibold hover:shadow-lg transition-all duration-300 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
-                     >
-                        {isLoading ? (
-                           <>
-                              <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                              <span>Updating Profile...</span>
-                           </>
-                        ) : (
-                           <>
-                              <Save className="w-5 h-5" />
-                              <span>Save Changes</span>
-                           </>
-                        )}
-                     </button>
+                        {/* Submit Buttons */}
+                        <button
+                           type="submit"
+                           disabled={isLoading}
+                           className="xl:max-w-52 flex-1 bg-primary text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all duration-300 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+                        >
+                           {isLoading ? (
+                              <>
+                                 <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                                 <span>Updating Profile...</span>
+                              </>
+                           ) : (
+                              <>
+                                 <Save className="w-5 h-5" />
+                                 <span>Save Changes</span>
+                              </>
+                           )}
+                        </button>
+                     </div>
                   </div>
 
                   {/* Submit Error */}

@@ -39,10 +39,6 @@ const Navbar = () => {
       fetchUserData();
    }, [user, jwtReady]);
 
-   useEffect(() => {
-      console.log(currentUser, jwtReady);
-   }, [currentUser, jwtReady]);
-
    const handelLogOut = () => {
       logOut()
          .then(() => {
@@ -132,7 +128,7 @@ const Navbar = () => {
          </li>
          <li className="!px-2">
             <NavLink
-               to={`./allRecovered`}
+               to={`./update-profile`}
                className={
                   "!font-source-serif4 mb-1 gap-3 hover:text-primary !py-2.5 rounded-lg text-gray-700"
                }
