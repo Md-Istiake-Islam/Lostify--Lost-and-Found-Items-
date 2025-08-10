@@ -39,6 +39,9 @@ const ViewItemDetails = () => {
    //set paragraph style
    const pStyle = darkMode ? "text-gray-400" : "text-gray-600";
 
+   //set paragraph style
+   const iconStyle = darkMode ? "#ccced1" : "#2f3134";
+
    //post data
    const {
       _id,
@@ -227,13 +230,13 @@ const ViewItemDetails = () => {
    return (
       <div className="container lg:max-w-7xl mx-auto mt-14 pb-14 px-3 lg:px-0">
          <div>
-            <h1 className="text-[28px] font-bold !font-source-serif border-b border-primary border-dashed pb-3 max-w-xl mb-3">
+            <h1 className="text-[28px] font-bold !font-source-serif border-b border-primary/80 border-dashed pb-3 max-w-xl mb-3">
                Item Information –{" "}
                <span className="text-primary !font-source-serif">
                   Reclaim or Report
                </span>
             </h1>
-            <p className="line-clamp-2 text-secondary text-sm mb-10">
+            <p className={`line-clamp-2 text-sm mb-10 ${pStyle}`}>
                Explore the full details of a reported lost or found item,
                including its title, category, location, date, and contact
                information. If you recognize the item or have relevant
@@ -242,7 +245,7 @@ const ViewItemDetails = () => {
             </p>
          </div>
          <div className=" relative mt-6  grid lg:grid-cols-12 gap-10">
-            <div className="lg:col-span-8 border border-primary pb-10 rounded-lg overflow-hidden">
+            <div className="lg:col-span-8 border border-primary/30 pb-10 rounded-lg overflow-hidden">
                <div>
                   <img
                      src={images_url}
@@ -251,7 +254,7 @@ const ViewItemDetails = () => {
                   />
                </div>
                <div className="w-full px-10">
-                  <div className="lg:px-5 py-8 border-b border-primary border-dashed w-full">
+                  <div className="lg:px-5 py-8 border-b border-primary/70 border-dashed w-full">
                      <h1 className="text-[28px] font-semibold text-primary-content mb-4">
                         {title}
                      </h1>
@@ -292,7 +295,9 @@ const ViewItemDetails = () => {
                         </div>
                      </div>
                   </div>
-                  <p className="mt-7 font-source-serif text-sm border-b border-primary border-dashed pb-7 text-gray-600">
+                  <p
+                     className={`mt-7 font-source-serif text-sm border-b border-primary/70 border-dashed pb-7 ${pStyle}`}
+                  >
                      {description}
                   </p>
 
@@ -303,9 +308,9 @@ const ViewItemDetails = () => {
                               <CiFacebook
                                  style={{
                                     borderRadius: "50%",
-                                    border: "1px solid #2f3134",
+                                    border: `1px solid ${iconStyle}`,
                                     padding: "",
-                                    color: "#2f3134",
+                                    color: `${iconStyle}`,
                                  }}
                               />
                            </a>
@@ -315,9 +320,9 @@ const ViewItemDetails = () => {
                               <FaXTwitter
                                  style={{
                                     borderRadius: "50%",
-                                    border: "1px solid #2f3134",
+                                    border: `1px solid ${iconStyle}`,
                                     padding: "4px",
-                                    color: "#2f3134",
+                                    color: `${iconStyle}`,
                                  }}
                               />
                            </a>
@@ -327,9 +332,9 @@ const ViewItemDetails = () => {
                               <GrLinkedinOption
                                  style={{
                                     borderRadius: "50%",
-                                    border: "1px solid #2f3134",
+                                    border: `1px solid ${iconStyle}`,
                                     padding: "4px",
-                                    color: "#2f3134",
+                                    color: `${iconStyle}`,
                                  }}
                               />
                            </a>
@@ -345,20 +350,20 @@ const ViewItemDetails = () => {
                               isRecovered
                                  ? "text-gray-400 border-gray-400"
                                  : "text-primary border-primary"
-                           } group hover:bg-primary hover:text-white"`}
+                           } group hover:bg-primary `}
                         >
                            {postType === "Lost" ? (
                               <BsExclamationCircle
-                                 className="text-base font-bold group-hover:text-white"
+                                 className="text-base font-bold group-hover:text-gray-700e"
                                  style={{ strokeWidth: 0.8 }}
                               />
                            ) : (
                               <BsCheck2Circle
-                                 className="text-base font-bold group-hover:text-white"
+                                 className="text-base font-bold group-hover:text-gray-700"
                                  style={{ strokeWidth: 0.8 }}
                               />
                            )}
-                           <span className="mt-[1px]">
+                           <span className="mt-[1px] group-hover:text-gray-700">
                               {postType === "Lost"
                                  ? "Found This!"
                                  : "This is Mine!"}
@@ -374,7 +379,15 @@ const ViewItemDetails = () => {
                </h1>
                {latestPosts.length > 0
                   ? latestPosts.map((post) => {
-                       const { _id, images_url, title, created_at } = post;
+                       const {
+                          _id,
+                          images_url,
+                          postType,
+                          title,
+                          lostDate,
+                          foundDate,
+                       } = post;
+                       const date = postType === "Lost" ? lostDate : foundDate;
                        return (
                           <Link
                              to={`./../../items/${_id}`}
@@ -388,9 +401,11 @@ const ViewItemDetails = () => {
                                 />
                                 <div>
                                    <h1 className="text-sm mb-2">{title}</h1>
-                                   <p className="text-xs flex items-center gap-1">
+                                   <p
+                                      className={`text-xs flex items-center gap-1 ${pStyle}`}
+                                   >
                                       <IoTimerOutline />
-                                      {created_at}
+                                      {date}
                                    </p>
                                 </div>
                              </div>
@@ -430,7 +445,7 @@ const ViewItemDetails = () => {
                            <input
                               name="recoveredLocation"
                               type="text"
-                              className="input w-full bg-[#e8f7f8] border-primary"
+                              className="input w-full bg-[#cee7e9] border-primary text-gray-950"
                               placeholder="Enter the location where the item was returned"
                               value={recoveredLocationValue}
                               onChange={(e) =>
@@ -444,7 +459,7 @@ const ViewItemDetails = () => {
                               </label>
                               <div
                                  ref={wrapperRef}
-                                 className="flex items-center justify-between !border-2 border-primary rounded-lg bg-[#e8f7f8] pl-3 py-1 pr-1  has-[input:focus-within]:bg-[#e8f1f3]"
+                                 className="flex items-center justify-between !border-2 border-primary rounded-lg bg-[#cee7e9]  pl-3 py-1 pr-1  has-[input:focus-within]:bg-[#e8f1f3]"
                               >
                                  <DatePicker
                                     name="recoveredDate"
@@ -457,7 +472,7 @@ const ViewItemDetails = () => {
                                     value={selectedDate}
                                     open={isOpen}
                                     placeholderText="Select the recovery date"
-                                    className="focus:outline-none placeholder:text-sm text-sm"
+                                    className="focus:outline-none placeholder:text-sm text-sm text-gray-950"
                                     ref={datePickerRef}
                                     dateFormat="yyyy-MM-dd"
                                     required
@@ -487,7 +502,7 @@ const ViewItemDetails = () => {
                               type="text"
                               value={currentUser && currentUser.name}
                               readOnly
-                              className="input w-full bg-[#e8f7f8] border-primary"
+                              className="input w-full bg-[#cee7e9] border-primary text-gray-950"
                            />
                            <label className="label text-white text-sm mt-3">
                               Email
@@ -496,7 +511,7 @@ const ViewItemDetails = () => {
                               type="email"
                               value={currentUser && currentUser.email}
                               readOnly
-                              className="input w-full bg-[#e8f7f8] border-primary"
+                              className="input w-full bg-[#cee7e9] border-primary text-gray-950"
                            />
                            <div className="mt-4 flex items-center gap-3 w-full justify-end">
                               <p className="text-blue-900 !font-nunito text-base font-medium">
@@ -510,7 +525,7 @@ const ViewItemDetails = () => {
                            </div>
                         </fieldset>
                         <div className="modal-action">
-                           <button className="btn border-primary text-primary hover:bg-primary hover:text-white px-8 rounded-lg">
+                           <button className="btn border-[#14b1bb] text-[#14b1bb] shadow-none bg-transparent hover:bg-[#14b1bb] hover:text-white px-8 rounded-lg">
                               Submit
                            </button>
                         </div>
