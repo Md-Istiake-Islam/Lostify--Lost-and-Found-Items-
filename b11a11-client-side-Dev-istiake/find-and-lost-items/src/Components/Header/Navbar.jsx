@@ -232,7 +232,7 @@ const Navbar = () => {
                   onClick={() => toggleTheme()}
                   className={`p-2 rounded-lg transition-colors text-gray-400`}
                >
-                  {darkMode ? <Sun size={25} /> : <Moon size={25} />}
+                  {darkMode ? <Sun size={27} /> : <Moon size={27} />}
                </button>
 
                {/* User login section */}

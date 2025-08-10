@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
    FaSearch,
    FaHandHoldingHeart,
@@ -7,8 +7,28 @@ import {
    FaShieldAlt,
    FaHistory,
 } from "react-icons/fa";
+import ThemeContext from "../Provider/ThemeProvider/ThemeContext";
 
 const HowItWorks = () => {
+   // get theme control from Theme Context
+   const { theme } = useContext(ThemeContext);
+   const [darkMode, setDarkMode] = useState(false);
+
+   useEffect(() => {
+      setDarkMode(theme === "dark" ? true : false);
+   }, [setDarkMode, theme, darkMode]);
+
+   //set heading and title text style
+   const textHT = darkMode ? "text-gray-200" : "text-gray-900";
+   const textHT2 = darkMode ? "text-[#7fb1dc]" : "text-[#235480]";
+
+   //set paragraph style
+   const pStyle = darkMode ? "text-gray-400" : "text-gray-600";
+
+   //set button style
+   const btnStyle = darkMode
+      ? "bg-primary text-gray-800 hover:bg-[#0e7c83] hover:text-gray-300"
+      : "bg-primary text-gray-100 hover:bg-[#0e7c83]";
    return (
       <div className="relative">
          <div className="custom-shape-divider-bottom-1750006689">
@@ -36,91 +56,145 @@ const HowItWorks = () => {
          </div>
          <div className="pb-30">
             <div className="max-w-7xl mx-auto px-4 text-center relative z-10">
-               <h2
-                  id="how-it-works-title"
-                  className="text-4xl font-extrabold text-gray-800 mb-6 !font-nunito "
-               >
-                  How Lostify Helps
-               </h2>
-               <p className="text-gray-600 mb-12 max-w-2xl mx-auto text-base !font-nunito">
-                  Lostify is your bridge to reuniting lost items with their
-                  owners. Here's how we make that easier, safer, and smarter.
-               </p>
+               <div className=" flex flex-col justify-center items-center">
+                  <h1 className="text-3xl font-bold !font-source-serif mb-5 border-b border-primary border-dashed pb-3 min-w-sm text-center">
+                     How Lostify{" "}
+                     <span className="text-primary !font-source-serif">
+                        Helps
+                     </span>
+                  </h1>
+                  <p
+                     className={`line-clamp-2  text-sm mb-10 text-center ${pStyle}`}
+                  >
+                     Lostify is your bridge to reuniting lost items with their
+                     owners. Here's how we make that easier, safer, and smarter.
+                  </p>
+               </div>
 
-               <div className="grid gap-8 md:grid-cols-3 text-center mt-20">
-                  <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition flex flex-col items-center">
-                     <div className="w-16 h-16 flex items-center justify-center bg-blue-100 rounded-full mb-6">
-                        <FaSearch className="text-blue-600 text-2xl" />
+               <div className="grid gap-8 md:grid-cols-3 text-center mt-8">
+                  <div className="bg-base-100 p-6 rounded-xl shadow-md hover:shadow-lg transition flex flex-col items-center">
+                     <div
+                        className={`w-16 h-16 flex items-center justify-center  rounded-full mb-6 ${
+                           darkMode ? "bg-blue-400/20" : "bg-blue-100"
+                        }`}
+                     >
+                        <FaSearch
+                           className={` text-2xl ${
+                              darkMode ? "text-blue-400" : "text-blue-600"
+                           }`}
+                        />
                      </div>
-                     <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                     <h3 className={`text-xl font-semibold mb-2 ${textHT}`}>
                         Report a Lost Item
                      </h3>
-                     <p className="text-gray-600 text-sm">
+                     <p className={`text-sm ${pStyle}`}>
                         Share item details like location and description to help
                         others assist in the search.
                      </p>
                   </div>
 
-                  <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition flex flex-col items-center">
-                     <div className="w-16 h-16 flex items-center justify-center bg-green-100 rounded-full mb-6">
-                        <FaHandHoldingHeart className="text-green-600 text-2xl" />
+                  <div className="bg-base-100 p-6 rounded-xl shadow-md hover:shadow-lg transition flex flex-col items-center">
+                     <div
+                        className={`w-16 h-16 flex items-center justify-center  rounded-full mb-6 ${
+                           darkMode ? "bg-green-400/20" : "bg-green-100"
+                        }`}
+                     >
+                        <FaHandHoldingHeart
+                           className={` text-2xl ${
+                              darkMode ? "text-green-400" : "text-green-600"
+                           }`}
+                        />
                      </div>
-                     <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                     <h3 className={`text-xl font-semibold mb-2 ${textHT}`}>
                         Post a Found Item
                      </h3>
-                     <p className="text-gray-600 text-sm">
+                     <p className={`text-sm ${pStyle}`}>
                         Help others by listing found items with photos and
                         recovery details.
                      </p>
                   </div>
 
-                  <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition flex flex-col items-center">
-                     <div className="w-16 h-16 flex items-center justify-center bg-yellow-100 rounded-full mb-6">
-                        <FaHandshake className="text-yellow-600 text-2xl" />
+                  <div className="bg-base-100 p-6 rounded-xl shadow-md hover:shadow-lg transition flex flex-col items-center">
+                     <div
+                        className={`w-16 h-16 flex items-center justify-center  rounded-full mb-6 ${
+                           darkMode ? "bg-yellow-400/20" : "bg-yellow-100"
+                        }`}
+                     >
+                        <FaHandshake
+                           className={` text-2xl ${
+                              darkMode ? "text-yellow-400" : "text-yellow-600"
+                           }`}
+                        />
                      </div>
-                     <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                     <h3 className={`text-xl font-semibold mb-2 ${textHT}`}>
                         Reconnect Securely
                      </h3>
-                     <p className="text-gray-600 text-sm">
+                     <p className={`text-sm ${pStyle}`}>
                         Once verified, Lostify helps both parties arrange return
                         securely and respectfully.
                      </p>
                   </div>
 
-                  <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition flex flex-col items-center">
-                     <div className="w-16 h-16 flex items-center justify-center bg-indigo-100 rounded-full mb-6">
-                        <FaBell className="text-indigo-600 text-2xl" />
+                  <div className="bg-base-100 p-6 rounded-xl shadow-md hover:shadow-lg transition flex flex-col items-center">
+                     <div
+                        className={`w-16 h-16 flex items-center justify-center  rounded-full mb-6 ${
+                           darkMode ? "bg-indigo-400/20" : "bg-indigo-100"
+                        }`}
+                     >
+                        <FaBell
+                           className={` text-2xl ${
+                              darkMode ? "text-indigo-400" : "text-indigo-600"
+                           }`}
+                        />
                      </div>
-                     <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                     <h3 className={`text-xl font-semibold-2`}>
+                        {" "}
+                        ${textHT}
                         Real-Time Notifications
                      </h3>
-                     <p className="text-gray-600 text-sm">
+                     <p className={`text-sm ${pStyle}`}>
                         Stay updated when someone posts a matching item or sends
                         a recovery request.
                      </p>
                   </div>
 
-                  <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition flex flex-col items-center">
-                     <div className="w-16 h-16 flex items-center justify-center bg-red-100 rounded-full mb-6">
-                        <FaShieldAlt className="text-red-600 text-2xl" />
+                  <div className="bg-base-100 p-6 rounded-xl shadow-md hover:shadow-lg transition flex flex-col items-center">
+                     <div
+                        className={`w-16 h-16 flex items-center justify-center  rounded-full mb-6 ${
+                           darkMode ? "bg-red-400/20" : "bg-red-100"
+                        }`}
+                     >
+                        <FaShieldAlt
+                           className={` text-2xl ${
+                              darkMode ? "text-red-400" : "text-red-600"
+                           }`}
+                        />
                      </div>
-                     <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                     <h3 className={`text-xl font-semibold mb-2 ${textHT}`}>
                         Privacy First
                      </h3>
-                     <p className="text-gray-600 text-sm">
+                     <p className={`text-sm ${pStyle}`}>
                         Your data is secure with us. We keep your personal
                         information protected and confidential.
                      </p>
                   </div>
 
-                  <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition flex flex-col items-center">
-                     <div className="w-16 h-16 flex items-center justify-center bg-orange-100 rounded-full mb-6">
-                        <FaHistory className="text-orange-600 text-2xl" />
+                  <div className="bg-base-100 p-6 rounded-xl shadow-md hover:shadow-lg transition flex flex-col items-center">
+                     <div
+                        className={`w-16 h-16 flex items-center justify-center  rounded-full mb-6 ${
+                           darkMode ? "bg-orange-400/20" : "bg-orange-100"
+                        }`}
+                     >
+                        <FaHistory
+                           className={`text-2xl ${
+                              darkMode ? "text-orange-400" : "text-orange-600"
+                           }`}
+                        />
                      </div>
-                     <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                     <h3 className={`text-xl font-semibold mb-2 ${textHT}`}>
                         Recovery History
                      </h3>
-                     <p className="text-gray-600 text-sm">
+                     <p className={`text-sm ${pStyle}`}>
                         Access your item recovery history anytime to track
                         progress and updates easily.
                      </p>

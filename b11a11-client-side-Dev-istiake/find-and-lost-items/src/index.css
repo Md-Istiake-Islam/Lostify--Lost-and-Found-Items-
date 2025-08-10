@@ -18,6 +18,20 @@
    --color-secondary: #030925;
 }
 
+@plugin "daisyui/theme" {
+   /* set as default theme */
+   name: "dark";
+   default: true;
+   color-scheme: dark;
+
+   /* theme configuration */
+   --color-primary: #42e0eb;
+   --color-primary-content: #14b1bb;
+   --color-secondary: #030925;
+   --color-base-200: #101828;
+   --color-base-100: #1e2939;
+}
+
 @theme {
    --font-jost: "jost", sans-serif;
    --font-source-serif: "Source Serif 4", serif;
