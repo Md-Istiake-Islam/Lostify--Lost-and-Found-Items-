@@ -64,6 +64,9 @@ const UserProfilePage = () => {
    //set paragraph style
    const pStyle = darkMode ? "text-gray-400" : "text-gray-600";
 
+   //set paragraph style
+   const btnStyle = darkMode ? "text-gray-800" : "text-gray-100";
+
    if (!userInfo) {
       return <LoadingSpinner />;
    }
@@ -114,7 +117,7 @@ const UserProfilePage = () => {
                   </div>
                   <Link
                      to={`./../update-profile`}
-                     className="bg-primary text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-300 hover:scale-[1.02] flex items-center space-x-2"
+                     className={`bg-primary px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-300 hover:scale-[1.02] flex items-center space-x-2 ${btnStyle}`}
                   >
                      <Edit3 className="w-5 h-5" />
                      <span className="hidden lg:block">Edit Profile</span>

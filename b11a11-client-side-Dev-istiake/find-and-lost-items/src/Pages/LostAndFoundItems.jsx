@@ -64,11 +64,6 @@ const LostAndFoundItems = () => {
    //set paragraph style
    const pStyle = darkMode ? "text-gray-400" : "text-gray-600";
 
-   //set button style
-   const btnStyle = darkMode
-      ? "bg-primary text-gray-800 hover:bg-[#0e7c83] hover:text-gray-300"
-      : "bg-primary text-gray-100 hover:bg-[#0e7c83]";
-
    //load and display data
    const itemsData = useLoaderData();
    const [displayItemsData, setDisplayItemsData] = useState([]);

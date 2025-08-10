@@ -6,6 +6,7 @@ import { FcGoogle } from "react-icons/fc";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../Provider/AuthProvider";
 import useTitle from "../../Hooks/useTitle";
+import ThemeContext from "../../Provider/ThemeProvider/ThemeContext";
 
 const Register = () => {
    //scroll to top
@@ -16,6 +17,25 @@ const Register = () => {
    }, [pathname]);
    //page title
    useTitle("Login to enjoy full feature");
+
+   // get theme control from Theme Context
+   const { theme } = useContext(ThemeContext);
+   const [darkMode, setDarkMode] = useState(false);
+
+   useEffect(() => {
+      setDarkMode(theme === "dark" ? true : false);
+   }, [setDarkMode, theme, darkMode]);
+
+   //set heading and title text style
+   const textHT = darkMode ? "text-gray-200" : "text-gray-900";
+
+   //set paragraph style
+   const btnStyle = darkMode ? "text-gray-800" : "text-gray-100";
+
+   //set paragraph style
+   const inputStyle = darkMode
+      ? "bg-gray-600/20 hover:bg-gray-600/30 border-gray-700 text-gray-300"
+      : "bg-gray-50 border-gray-200 text-gray-900";
 
    //page location
    const location = useLocation();
@@ -176,41 +196,41 @@ const Register = () => {
                <form onSubmit={handelRegister}>
                   <fieldset className="fieldset w-full">
                      {/* name */}
-                     <label className="label text-base text-gray-700 !font-jost font-medium">
-                        Name
+                     <label className={`label text-sm font-semibold ${textHT}`}>
+                        Name *
                      </label>
                      <input
                         name="name"
                         type="text"
-                        className="input mb-3 w-full focus:outline-0 focus:border-primary"
+                        className={`input mb-3 w-full !border-1 rounded-lg focus:outline-0 focus:border-primary ${inputStyle}`}
                         placeholder="Name"
                         required
                      />
                      {/* photo */}
-                     <label className="label text-base text-gray-700 !font-jost font-medium">
-                        Photo URL
+                     <label className={`label text-sm font-semibold ${textHT}`}>
+                        Photo URL *
                      </label>
                      <input
                         name="photo"
                         type="text"
-                        className="input mb-3 w-full focus:outline-0 focus:border-primary0"
+                        className={`input mb-3 w-full !border-1 rounded-lg focus:outline-0 focus:border-primary ${inputStyle}`}
                         placeholder="Photo Url"
                         required
                      />
                      {/* email */}
-                     <label className="label text-base text-gray-700 !font-jost font-medium">
-                        Email
+                     <label className={`label text-sm font-semibold ${textHT}`}>
+                        Email *
                      </label>
                      <input
                         name="email"
                         type="email"
-                        className="input mb-3 w-full focus:outline-0 focus:border-primary"
+                        className={`input mb-3 w-full !border-1 rounded-lg focus:outline-0 focus:border-primary ${inputStyle}`}
                         placeholder="Email"
                         required
                      />
                      {/* password */}
-                     <label className="label text-base text-gray-700 !font-jost font-medium">
-                        Password
+                     <label className={`label text-sm font-semibold ${textHT}`}>
+                        Password *
                      </label>
                      <div className="relative flex items-center">
                         <input
@@ -218,7 +238,7 @@ const Register = () => {
                            type={showPassword ? "text" : "password"}
                            value={password}
                            onChange={handleChange}
-                           className="input mb-1 w-full focus:outline-0 focus:border-primary"
+                           className={`input mb-1 w-full focus:outline-0 focus:border-primary !border-1 rounded-lg ${inputStyle}`}
                            placeholder="Password"
                            required
                         />
@@ -247,7 +267,7 @@ const Register = () => {
                      {/* button for register */}
                      <button
                         type="submit"
-                        className="btn bg-primary hover:bg-[#0e7c83] text-white mt-4"
+                        className={`btn border-primary bg-primary hover:bg-[#0e7c83]  mt-4 ${btnStyle}`}
                      >
                         Register
                      </button>
@@ -264,7 +284,11 @@ const Register = () => {
                   onClick={() => {
                      handelGoogleSignIn();
                   }}
-                  className="btn bg-transparent text-primary hover:bg-primary hover:text-white mt-4 border border-primary"
+                  className={`btn bg-transparent hover:bg-primary  mt-4 border border-primary ${
+                     darkMode
+                        ? "text-primary hover:text-gray-800"
+                        : "text-primary hover:text-white"
+                  }`}
                >
                   <FcGoogle className="text-1xl" /> Login with Google
                </button>

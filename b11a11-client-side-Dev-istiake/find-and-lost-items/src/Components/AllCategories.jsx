@@ -41,7 +41,7 @@ const AllCategories = () => {
    const pStyle = darkMode ? "text-gray-400" : "text-gray-600";
 
    return (
-      <div className="container 2xl:max-w-8xl py-16 mx-auto">
+      <div className="container 2xl:max-w-8xl py-16 mx-auto bg-base-200">
          <div className=" flex flex-col justify-center items-center">
             <h2 className="text-3xl font-bold !font-source-serif mb-5 border-b border-primary border-dashed pb-3 min-w-sm text-center">
                Featured{" "}

@@ -72,6 +72,9 @@ const EditProfilePage = () => {
    //set paragraph style
    const pStyle = darkMode ? "text-gray-400" : "text-gray-600";
 
+   //set paragraph style
+   const btnStyle = darkMode ? "text-gray-800" : "text-gray-100";
+
    // get update user ID
 
    const [isLoading, setIsLoading] = useState(false);
@@ -316,7 +319,7 @@ const EditProfilePage = () => {
                            to="./../user-profile"
                            className={`xl:max-w-52 flex justify-center gap-3 flex-1 py-3 rounded-lg font-semibold transition-all duration-300 text-center hover:scale-[1.02]  ${
                               darkMode
-                                 ? "bg-red-600/30 hover:bg-red-600/40 text-red-700"
+                                 ? "bg-red-600/20 hover:bg-red-600/30 text-red-400"
                                  : "bg-red-100 hover:bg-red-200 text-red-500"
                            }`}
                         >
@@ -328,11 +331,13 @@ const EditProfilePage = () => {
                         <button
                            type="submit"
                            disabled={isLoading}
-                           className="xl:max-w-52 flex-1 bg-primary text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all duration-300 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+                           className={`xl:max-w-52 flex-1 bg-primary py-3 rounded-lg font-semibold hover:shadow-lg transition-all duration-300 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2 ${btnStyle}`}
                         >
                            {isLoading ? (
                               <>
-                                 <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                                 <div
+                                    className={`w-5 h-5 border-2 border-white/30 rounded-full animate-spin ${btnStyle}`}
+                                 ></div>
                                  <span>Updating Profile...</span>
                               </>
                            ) : (

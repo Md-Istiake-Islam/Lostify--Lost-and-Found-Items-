@@ -9,6 +9,7 @@ import formBg from "../assets/form-bg.png";
 import axios from "axios";
 import { useLoaderData } from "react-router";
 import useTitle from "../Hooks/useTitle";
+import ThemeContext from "../Provider/ThemeProvider/ThemeContext";
 
 const categories = [
    "Electronics",
@@ -25,6 +26,30 @@ const categories = [
 const UpdatePost = () => {
    //page title
    useTitle("Update Your Post");
+
+   // get theme control from Theme Context
+   const { theme } = useContext(ThemeContext);
+   const [darkMode, setDarkMode] = useState(false);
+
+   useEffect(() => {
+      setDarkMode(theme === "dark" ? true : false);
+   }, [setDarkMode, theme, darkMode]);
+
+   //set heading and title text style
+   const textHT = darkMode ? "text-gray-200" : "text-gray-900";
+
+   //set paragraph style
+   const btnStyle = darkMode ? "text-gray-800" : "text-gray-100";
+
+   //set paragraph style
+   const inputStyle = darkMode
+      ? "bg-gray-600/20 hover:bg-gray-600/30 border-gray-700 text-gray-300"
+      : "bg-gray-50 border-gray-200 text-gray-900";
+
+   // set container style
+   const containerStyle = darkMode
+      ? "bg-gray-800 border-gray-700"
+      : "bg-white border-gray-200";
 
    //use context api
    const { user } = useContext(AuthContext);
@@ -152,31 +177,28 @@ const UpdatePost = () => {
          }}
       >
          <div className=" lg:max-w-3xl mx-auto min-h-[calc(100vh-100px)] px-2 lg:px-0 flex items-center justify-center flex-col mb-4">
-            <div className="mb-10">
-               <h1 className="text-white text-4.5xl font-bold font-nunito">
-                  Report a Lost or Found Item
-               </h1>
-            </div>
-            <fieldset className="fieldset bg-base-100 shadow-lg rounded-3xl lg:w-3xl p-5 py-10 ">
-               {/* <legend className="fieldset-legend text-[30px] text-center !text-gray-900">
+            <fieldset
+               className={`fieldset shadow-lg rounded-3xl lg:w-3xl p-5 py-8 ${containerStyle}`}
+            >
+               <h1 className=" text-[30px] mb-8 ml-3 font-bold !font-source-serif border-b border-primary border-dashed pb-3 pr-12 max-w-max">
                   Report{" "}
-                  <span className="text[28px] text-primary">
+                  <span className="text[28px] text-primary !font-source-serif">
                      a Lost or Found Item
                   </span>
-               </legend> */}
+               </h1>
 
                <form
                   onSubmit={handleSubmit}
                   className="grid grid-cols-1 lg:grid-cols-2  gap-5 px-3"
                >
-                  <div className="flex flex-col gap-2 lg:col-span-2">
-                     <label className="label text-base text-gray-900 font-medium">
-                        Post Type
+                  <div className="flex flex-col gap-2 ">
+                     <label className={`label text-sm font-semibold ${textHT}`}>
+                        Post Type *
                      </label>
 
                      <select
                         name="postType"
-                        className="select text-gray-900 w-full focus:outline-0 !border-2 border-gray-300 rounded-lg"
+                        className={`select  w-full focus:outline-0 !border-1 rounded-lg ${inputStyle}`}
                         value={postTypeValue}
                         onChange={(e) => setPostTypeValue(e.target.value)}
                         required
@@ -185,29 +207,29 @@ const UpdatePost = () => {
                         <option value="Found">Found</option>
                      </select>
                   </div>
-                  <div className="flex flex-col gap-2 lg:col-span-2">
-                     <label className="label text-base text-gray-900 font-medium">
-                        Image URl
+                  <div className="flex flex-col gap-2 ">
+                     <label className={`label text-sm font-semibold ${textHT}`}>
+                        Image URl *
                      </label>
                      <input
                         name="images_url"
                         type="text"
                         value={thumbnailValue}
                         onChange={(e) => setThumbnailValue(e.target.value)}
-                        className="input w-full focus:outline-0 !border-2 border-gray-300 rounded-lg"
+                        className={`input w-full focus:outline-0 !border-1 rounded-lg ${inputStyle}`}
                         placeholder="https://..."
                         required
                      />
                   </div>
 
                   <div className="flex flex-col gap-2">
-                     <label className="label text-base text-gray-900 font-medium">
-                        Title
+                     <label className={`label text-sm font-semibold ${textHT}`}>
+                        Title *
                      </label>
                      <input
                         name="title"
                         type="text"
-                        className="input w-full focus:outline-0 !border-2 border-gray-300 rounded-lg"
+                        className={`input w-full focus:outline-0 !border-1 rounded-lg ${inputStyle}`}
                         placeholder={`Title of ${postTypeValue} Item`}
                         value={titleValue}
                         onChange={(e) => setTitleValue(e.target.value)}
@@ -216,12 +238,12 @@ const UpdatePost = () => {
                   </div>
 
                   <div className="flex flex-col gap-2">
-                     <label className="label text-base text-gray-900 font-medium">
-                        Category
+                     <label className={`label text-sm font-semibold ${textHT}`}>
+                        Category *
                      </label>
                      <select
                         name="category"
-                        className="select text-gray-400 w-full focus:outline-0 !border-2 border-gray-300 rounded-lg"
+                        className={`select text-gray-400 w-full focus:outline-0 !border-1 rounded-lg ${inputStyle}`}
                         value={categoryValue}
                         onChange={(e) => setCategoryValue(e.target.value)}
                         required
@@ -238,13 +260,13 @@ const UpdatePost = () => {
                   </div>
 
                   <div className="flex flex-col gap-2">
-                     <label className="label text-base text-gray-900 font-medium">
-                        Location
+                     <label className={`label text-sm font-semibold ${textHT}`}>
+                        Location *
                      </label>
                      <input
                         name="location"
                         type="text"
-                        className="input w-full focus:outline-0 !border-2 border-gray-300 rounded-lg"
+                        className={`input w-full focus:outline-0 !border-1 rounded-lg ${inputStyle}`}
                         placeholder={`Where the item was ${postTypeValue} `}
                         value={locationValue}
                         onChange={(e) => setLocationValue(e.target.value)}
@@ -252,12 +274,12 @@ const UpdatePost = () => {
                      />
                   </div>
                   <div className="flex flex-col gap-2">
-                     <label className="label text-base text-gray-900 font-medium">
-                        {postTypeValue} Date
+                     <label className={`label text-sm font-semibold ${textHT}`}>
+                        {postTypeValue} Date *
                      </label>
                      <div
                         ref={wrapperRef}
-                        className="flex items-center justify-between !border-2 border-gray-300 rounded-lg bg-transparent pl-3 py-1 pr-1  has-[input:focus-within]:bg-[#e8f1f3]"
+                        className={`flex items-center justify-between !border-1 rounded-lg  pl-3 py-1 pr-1 has-[input:focus-within]:bg-[#e8f1f3] ${inputStyle}`}
                      >
                         <DatePicker
                            name="eventDate"
@@ -291,39 +313,39 @@ const UpdatePost = () => {
                      </div>
                   </div>
                   <div className="flex flex-col gap-2">
-                     <label className="label text-base text-gray-900 font-medium ">
-                        Your Name
+                     <label className={`label text-sm font-semibold ${textHT}`}>
+                        Your Name *
                      </label>
 
                      <input
                         name="name"
                         type="text"
-                        className="input w-full bg-transparent focus:outline-0 !border-2 border-gray-300 rounded-lg"
+                        className={`input w-full focus:outline-0 !border-1 rounded-lg ${inputStyle}`}
                         placeholder={user.displayName}
                         value={user.displayName}
                         readOnly
                      />
                   </div>
                   <div className="flex flex-col gap-2">
-                     <label className="label text-base text-gray-900 font-medium">
+                     <label className={`label text-sm font-semibold ${textHT}`}>
                         Your Email
                      </label>
                      <input
                         name="email"
                         type="email"
-                        className="input w-full focus:outline-0 !border-2 border-gray-300 rounded-lg"
+                        className={`input w-full focus:outline-0 !border-1 rounded-lg ${inputStyle}`}
                         placeholder={user.email}
                         value={user.email}
                         readOnly
                      />
                   </div>
                   <div className="flex flex-col gap-2 lg:col-span-2">
-                     <label className="label text-base text-gray-900 font-medium">
-                        Description
+                     <label className={`label text-sm font-semibold ${textHT}`}>
+                        Description *
                      </label>
                      <textarea
                         name="description"
-                        className="textarea textarea-ghost !border-2 border-gray-300 rounded-lg w-full"
+                        className={`textarea textarea-ghost !border-1 rounded-lg w-full ${inputStyle}`}
                         placeholder="Description"
                         value={descriptionValue}
                         onChange={(e) => setDescriptionValue(e.target.value)}
@@ -332,7 +354,7 @@ const UpdatePost = () => {
                   </div>
 
                   <button
-                     className="btn mt-4 lg:col-span-2 border-primary bg-primary text-white hover:bg-[#338291]  rounded-md "
+                     className={`btn mt-4 lg:col-span-2 border-primary bg-primary hover:bg-[#338291] rounded-md ${btnStyle}`}
                      type="submit"
                   >
                      Add Now

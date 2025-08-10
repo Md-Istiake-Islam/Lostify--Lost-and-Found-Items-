@@ -1,5 +1,5 @@
-import React, { Suspense, useState, useEffect } from "react";
-import { useLoaderData } from "react-router";
+import React, { Suspense, useState, useEffect, useContext } from "react";
+import { useLoaderData, useLocation } from "react-router";
 import { BsFilterLeft } from "react-icons/bs";
 import LoadingSpinner from "../Components/LoadingSpinner";
 import RecoveredItemsCard from "../Components/RecoveredItemsCard";
@@ -9,6 +9,7 @@ import { MdViewList } from "react-icons/md";
 import { MdViewModule } from "react-icons/md";
 import { motion } from "motion/react";
 import useTitle from "../Hooks/useTitle";
+import ThemeContext from "../Provider/ThemeProvider/ThemeContext";
 
 //get categorize data promise
 const getItemsData = async (category) => {
@@ -47,9 +48,29 @@ const categories = [
 const RecoveredItems = () => {
    //page title
    useTitle("All Recovered Items");
+
+   const { pathname } = useLocation();
+   useEffect(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+   }, [pathname]);
+
    //load and display data
    const itemsData = useLoaderData();
    const [displayItemsData, setDisplayItemsData] = useState([]);
+
+   // get theme control from Theme Context
+   const { theme } = useContext(ThemeContext);
+   const [darkMode, setDarkMode] = useState(false);
+
+   useEffect(() => {
+      setDarkMode(theme === "dark" ? true : false);
+   }, [setDarkMode, theme, darkMode]);
+
+   //set heading and title text style
+   const textHT = darkMode ? "text-gray-200" : "text-gray-900";
+
+   //set paragraph style
+   const pStyle = darkMode ? "text-gray-400" : "text-gray-600";
 
    //control data loading state
    const [loading, setLoading] = useState(false);
@@ -138,7 +159,7 @@ const RecoveredItems = () => {
                      Recovered Items Archive
                   </span>
                </h1>
-               <p className="line-clamp-2 text-gray-500 text-sm mb-10">
+               <p className={`line-clamp-2 text-sm mb-10 ${pStyle}`}>
                   Browse the collection of items that have been successfully
                   recovered and returned to their owners through our platform.
                   Each entry represents a successful connection between a finder
@@ -148,16 +169,24 @@ const RecoveredItems = () => {
                   made possible when people care.
                </p>
                <div className="flex items-center mt-5 gap-2 md:gap-3 lg:gap-5 border-l-2 border-primary pl-1.5 mb-3">
-                  <p className="flex border border-[#14b0bba8] bg-[#14b0bb5e] rounded-sm px-1 py-0.5">
+                  <p
+                     className={`flex border bg-[#14b0bb5e] rounded-sm px-1 py-0.5 ${
+                        darkMode
+                           ? "border-[#14b0bba8]/30"
+                           : "border-[#14b0bba8]"
+                     }`}
+                  >
                      <BsFilterLeft className="text-[32px]" />
                   </p>
                   <div className="flex w-full justify-between items-center">
                      <div className="flex items-center gap-2 md:gap-3">
                         <button
                            onClick={() => handelAll()}
-                           className={
-                              "btn py-1.5 px-6 bg-[#14b0bb5e] border border-[#14b0bba8] hover:border-primary text-xs lg:text-sm rounded-sm"
-                           }
+                           className={`btn py-1.5 px-6 bg-[#14b0bb5e] border hover:border-primary text-xs lg:text-sm rounded-sm ${
+                              darkMode
+                                 ? "border-[#14b0bba8]/30"
+                                 : "border-[#14b0bba8]"
+                           }`}
                         >
                            All
                         </button>
@@ -173,7 +202,15 @@ const RecoveredItems = () => {
                                  {"- Choose Category -"}
                               </option>
                               {categories.map((cat) => (
-                                 <option key={cat} value={cat}>
+                                 <option
+                                    key={cat}
+                                    value={cat}
+                                    className={`${
+                                       darkMode
+                                          ? "bg-[#1e636879] text-gray-900 "
+                                          : "bg-[#14b0bb36]"
+                                    }`}
+                                 >
                                     {cat}
                                  </option>
                               ))}
@@ -269,6 +306,9 @@ const RecoveredItems = () => {
                         <RecoveredItemsCard
                            key={item._id}
                            item={item}
+                           darkMode={darkMode}
+                           textHT={textHT}
+                           pStyle={pStyle}
                         ></RecoveredItemsCard>
                      ))
                   ) : (

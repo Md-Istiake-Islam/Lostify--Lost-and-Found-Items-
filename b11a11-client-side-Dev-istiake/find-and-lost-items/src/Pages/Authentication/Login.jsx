@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, Navigate, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../../Provider/AuthProvider";
 import { AiFillEyeInvisible } from "react-icons/ai";
@@ -6,6 +6,7 @@ import { AiFillEye } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
 import Swal from "sweetalert2";
 import useTitle from "../../Hooks/useTitle";
+import ThemeContext from "../../Provider/ThemeProvider/ThemeContext";
 
 const Login = () => {
    //page title
@@ -14,6 +15,26 @@ const Login = () => {
    //page location
    const location = useLocation();
    const navigate = useNavigate();
+
+   // get theme control from Theme Context
+   const { theme } = useContext(ThemeContext);
+   const [darkMode, setDarkMode] = useState(false);
+
+   useEffect(() => {
+      setDarkMode(theme === "dark" ? true : false);
+   }, [setDarkMode, theme, darkMode]);
+
+   //set heading and title text style
+   const textHT = darkMode ? "text-gray-200" : "text-gray-900";
+
+   //set paragraph style
+   const btnStyle = darkMode ? "text-gray-800" : "text-gray-100";
+
+   //set paragraph style
+   const inputStyle = darkMode
+      ? "bg-gray-600/20 hover:bg-gray-600/30 border-gray-700 text-gray-300"
+      : "bg-gray-50 border-gray-200 text-gray-900";
+
    //context api
    const { signIn, googleSignIn, setUser } = useContext(AuthContext);
 
@@ -132,25 +153,25 @@ const Login = () => {
                <form onSubmit={handelSignin}>
                   <fieldset className="fieldset ">
                      {/* email */}
-                     <label className="label text-base text-gray-700 !font-jost font-medium">
-                        Email
+                     <label className={`label text-sm font-semibold ${textHT}`}>
+                        Email *
                      </label>
                      <input
                         name="email"
                         type="email"
-                        className="input mb-3 w-full focus:outline-0 focus:border-primary"
+                        className={`input mb-3 w-full !border-1 rounded-lg focus:outline-0 focus:border-primary ${inputStyle}`}
                         placeholder="Email"
                         required
                      />
                      {/* password */}
-                     <label className="label text-base text-gray-700 !font-jost font-medium">
-                        Password
+                     <label className={`label text-sm font-semibold ${textHT}`}>
+                        Password *
                      </label>
                      <div className="relative flex items-center">
                         <input
                            name="password"
                            type={showPassword ? "text" : "password"}
-                           className="input mb-1 w-full focus:outline-0 focus:border-primary"
+                           className={`input mb-1 w-full focus:outline-0 focus:border-primary !border-1 rounded-lg ${inputStyle}`}
                            placeholder="Password"
                            required
                         />
@@ -176,7 +197,7 @@ const Login = () => {
                      </div>
                      <button
                         type="submit"
-                        className="btn bg-primary hover:bg-[#0e7c83] text-white mt-4"
+                        className={`btn border-primary bg-primary hover:bg-[#0e7c83]  mt-4 ${btnStyle}`}
                      >
                         Login
                      </button>
@@ -193,7 +214,11 @@ const Login = () => {
                   onClick={() => {
                      handelGoogleSignIn();
                   }}
-                  className="btn bg-transparent text-primary hover:bg-primary hover:text-white mt-4 border border-primary"
+                  className={`btn bg-transparent hover:bg-primary mt-4 border border-primary ${
+                     darkMode
+                        ? "text-primary hover:text-gray-800"
+                        : "text-primary hover:text-white"
+                  }`}
                >
                   <FcGoogle className="text-1xl" />
                   Login with Google

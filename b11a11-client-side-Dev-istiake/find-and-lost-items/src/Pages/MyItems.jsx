@@ -7,6 +7,8 @@ import { AuthContext } from "../Provider/AuthProvider";
 import UserItemsCard from "../Components/UserItemsCard";
 import axios from "axios";
 import useTitle from "../Hooks/useTitle";
+import { useLocation } from "react-router";
+import ThemeContext from "../Provider/ThemeProvider/ThemeContext";
 
 const getItemsData = async (email) => {
    const res = await axios.get(
@@ -21,6 +23,26 @@ const getItemsData = async (email) => {
 const MyItems = () => {
    //page title
    useTitle("Your Submitted Items");
+
+   const { pathname } = useLocation();
+   useEffect(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+   }, [pathname]);
+
+   // get theme control from Theme Context
+   const { theme } = useContext(ThemeContext);
+   const [darkMode, setDarkMode] = useState(false);
+
+   useEffect(() => {
+      setDarkMode(theme === "dark" ? true : false);
+   }, [setDarkMode, theme, darkMode]);
+
+   //set heading and title text style
+   const textHT = darkMode ? "text-gray-200" : "text-gray-900";
+
+   //set paragraph style
+   const pStyle = darkMode ? "text-gray-400" : "text-gray-600";
+
    const { user } = useContext(AuthContext);
 
    const [displayItemsData, setDisplayItemsData] = useState([]);
@@ -106,7 +128,7 @@ const MyItems = () => {
                      Found Posts
                   </span>
                </h1>
-               <p className="line-clamp-2 text-gray-500 text-sm mb-10">
+               <p className={`line-clamp-2 text-sm mb-10 ${pStyle}`}>
                   This page displays all the items you've posted as lost or
                   found. You can easily keep track of their recovery status,
                   update details, or remove posts if needed.Whether you've lost
@@ -114,7 +136,13 @@ const MyItems = () => {
                   item, all your contributions are listed here.
                </p>
                <div className="flex items-center mt-5 gap-5 border-l-2 border-primary pl-1.5 mb-3">
-                  <p className="flex border border-[#14b0bba8] bg-[#14b0bb5e] rounded-sm px-1 py-0.5">
+                  <p
+                     className={`flex border bg-[#14b0bb5e] rounded-sm px-1 py-0.5 ${
+                        darkMode
+                           ? "border-[#14b0bba8]/30"
+                           : "border-[#14b0bba8]"
+                     }`}
+                  >
                      <BsFilterLeft className="text-[32px]" />
                   </p>
                </div>

@@ -11,32 +11,6 @@ import { TfiEmail } from "react-icons/tfi";
 import { MdOutlineWrongLocation } from "react-icons/md";
 
 const Footer = () => {
-   const { user } = useContext(AuthContext);
-   const privateLinks = (
-      <>
-         <li className="text-white rounded-lg">
-            <Link
-               to={`./allRecovered`}
-               className={"!font-nunito p-0 rounded-lg hover:text-primary"}
-            >
-               <p className="text-sm xl:text-sm !font-source-serif font-light mb-1.5">
-                  All Recovered Items
-               </p>
-            </Link>
-         </li>
-         <li className="text-white rounded-lg">
-            <Link
-               to={`./myItems`}
-               className={"!font-nunito p-0 rounded-lg hover:text-primary"}
-            >
-               <p className="text-sm xl:text-sm !font-source-serif font-light mb-1.5">
-                  Manage My Items
-               </p>
-            </Link>
-         </li>
-      </>
-   );
-
    const links = (
       <>
          <li className="text-white rounded-lg">
@@ -57,6 +31,30 @@ const Footer = () => {
                <p className="text-sm xl:text-sm !font-source-serif font-light mb-1.5">
                   Lost & Found Items
                </p>
+            </Link>
+         </li>
+         <li className="text-white rounded-lg">
+            <Link
+               to={`./tips`}
+               className={"!font-nunito p-0 rounded-lg hover:text-primary"}
+            >
+               Safety Tips
+            </Link>
+         </li>
+         <li className="text-white rounded-lg">
+            <Link
+               to={`./about-us`}
+               className={"!font-nunito p-0 rounded-lg hover:text-primary"}
+            >
+               About Us
+            </Link>
+         </li>
+         <li className="text-white rounded-lg">
+            <Link
+               to={`./contact-us`}
+               className={"!font-nunito p-0 rounded-lg hover:text-primary"}
+            >
+               Contact Us
             </Link>
          </li>
       </>
@@ -163,7 +161,6 @@ const Footer = () => {
                   </h1>
                   <ul className="menu menu-horizontal flex flex-col items-start p-0">
                      {links}
-                     {user ? privateLinks : ""}
                   </ul>
                </nav>
                <nav>

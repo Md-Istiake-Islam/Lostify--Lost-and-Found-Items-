@@ -5,7 +5,7 @@ import Footer from "../Components/Footer/Footer";
 
 const RootLayout = () => {
    return (
-      <div>
+      <div className="bg-base-200">
          <section className="sticky w-full z-20 top-0">
             <Navbar></Navbar>
          </section>

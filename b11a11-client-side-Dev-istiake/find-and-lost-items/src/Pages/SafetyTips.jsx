@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import animationData from "../assets/animations/safety.json";
 import Lottie from "lottie-react";
+import useTitle from "../Hooks/useTitle";
+import { useLocation } from "react-router";
+import ThemeContext from "../Provider/ThemeProvider/ThemeContext";
 
 const tips = [
    {
@@ -31,15 +34,34 @@ const tips = [
 ];
 
 const SafetyTips = () => {
+   //scroll to top
+   useTitle("Safety TIps");
+   const { pathname } = useLocation();
+   useEffect(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+   }, [pathname]);
+
+   // get theme control from Theme Context
+   const { theme } = useContext(ThemeContext);
+   const [darkMode, setDarkMode] = useState(false);
+
+   useEffect(() => {
+      setDarkMode(theme === "dark" ? true : false);
+   }, [setDarkMode, theme, darkMode]);
+
+   //set paragraph style
+   const pStyle = darkMode ? "text-gray-400" : "text-gray-600";
+
    return (
       <div className="px-4 py-20 max-w-7xl mx-auto">
          <div className="flex flex-col-reverse lg:flex-row items-center gap-10">
             {/* Left side - text */}
             <div className="w-full lg:w-1/2 space-y-6">
-               <h1 className="text-4xl font-bold text-[#14b1bb]">
-                  Safety Tips
+               <h1 className="text-3xl font-bold !font-source-serif mb-8 border-b border-primary border-dashed pb-3 pr-20 max-w-max">
+                  Safety{" "}
+                  <span className="text-primary !font-source-serif">Tips</span>
                </h1>
-               <p className="text-gray-600 text-base leading-relaxed">
+               <p className={`line-clamp-2 text-sm mb-10 ${pStyle}`}>
                   Protect yourself and others by following these guidelines when
                   handling lost and found items.
                </p>
@@ -48,14 +70,12 @@ const SafetyTips = () => {
                   {tips.map((tip, index) => (
                      <div
                         key={index}
-                        className="bg-base-100 border-l-4 border-[#14b1bb] p-4 shadow-sm rounded-md"
+                        className={`bg-base-100 border-l-4 border-[#14b1bb] p-4 shadow-sm rounded-md`}
                      >
-                        <h3 className="text-lg font-semibold text-[#14b1bb]">
+                        <h3 className="text-lg font-semibold text-[#14b1bb] mb-3">
                            {tip.title}
                         </h3>
-                        <p className="text-sm text-gray-600">
-                           {tip.description}
-                        </p>
+                        <p className={`text-sm ${pStyle}`}>{tip.description}</p>
                      </div>
                   ))}
                </div>
