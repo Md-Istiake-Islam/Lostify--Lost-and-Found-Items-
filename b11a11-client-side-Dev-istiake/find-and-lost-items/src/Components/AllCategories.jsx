@@ -10,7 +10,6 @@ import {
    FaBook,
    FaBus,
    FaBoxes,
-   FaQuestionCircle,
 } from "react-icons/fa";
 import { Link } from "react-router";
 import ThemeContext from "../Provider/ThemeProvider/ThemeContext";
@@ -24,7 +23,6 @@ const categories = [
    { name: "Books & Stationery", icon: <FaBook /> },
    { name: "Transport-Related", icon: <FaBus /> },
    { name: "Miscellaneous", icon: <FaBoxes /> },
-   { name: "Other", icon: <FaQuestionCircle /> },
 ];
 
 const AllCategories = () => {

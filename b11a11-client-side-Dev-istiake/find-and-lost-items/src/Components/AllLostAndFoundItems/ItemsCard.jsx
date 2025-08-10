@@ -24,15 +24,19 @@ const ItemsCard = ({ item, darkMode, textHT, pStyle }) => {
                >
                   {title}
                </h2>
-               <p className="flex items-center gap-2 mt-1 text-xs lg:text-base text-gray-500">
+               <p
+                  className={
+                     "flex items-center gap-2 mt-1 text-xs lg:text-base text-gray-500"
+                  }
+               >
                   <TbCategoryPlus className="text-primary text-lg" />
-                  <span className="line-clamp-1">{category}</span>
+                  <span className={`line-clamp-1 ${pStyle}`}>{category}</span>
                </p>
 
                <p className="flex items-center gap-2 text-xs lg:text-sm text-gray-500 mb-3">
                   {" "}
                   <IoLocationOutline className="text-primary text-lg" />
-                  <samp className="line-clamp-1">{location}</samp>
+                  <samp className={`line-clamp-1 ${pStyle}`}>{location}</samp>
                </p>
 
                <div className="card-actions justify-end mt-4">

@@ -1,4 +1,4 @@
-import React, { Suspense, useState, useEffect } from "react";
+import React, { Suspense, useState, useEffect, useContext } from "react";
 import { useLoaderData, useLocation, useParams } from "react-router";
 
 import { BsFilterLeft } from "react-icons/bs";
@@ -6,6 +6,7 @@ import LoadingSpinner from "../Components/LoadingSpinner";
 import ItemsCard from "../Components/AllLostAndFoundItems/ItemsCard";
 import axios from "axios";
 import useTitle from "../Hooks/useTitle";
+import ThemeContext from "../Provider/ThemeProvider/ThemeContext";
 
 //get categorize data promise
 const getItemsData = async (category) => {
@@ -48,6 +49,25 @@ const LostAndFoundItems = () => {
    useEffect(() => {
       window.scrollTo({ top: 0, behavior: "smooth" });
    }, [pathname]);
+
+   // get theme control from Theme Context
+   const { theme } = useContext(ThemeContext);
+   const [darkMode, setDarkMode] = useState(false);
+
+   useEffect(() => {
+      setDarkMode(theme === "dark" ? true : false);
+   }, [setDarkMode, theme, darkMode]);
+
+   //set heading and title text style
+   const textHT = darkMode ? "text-gray-200" : "text-gray-900";
+
+   //set paragraph style
+   const pStyle = darkMode ? "text-gray-400" : "text-gray-600";
+
+   //set button style
+   const btnStyle = darkMode
+      ? "bg-primary text-gray-800 hover:bg-[#0e7c83] hover:text-gray-300"
+      : "bg-primary text-gray-100 hover:bg-[#0e7c83]";
 
    //load and display data
    const itemsData = useLoaderData();
@@ -131,7 +151,7 @@ const LostAndFoundItems = () => {
                      Lost & Found Items
                   </span>
                </h1>
-               <p className="line-clamp-2 text-gray-500 text-sm mb-10">
+               <p className={`line-clamp-2 text-sm mb-10 ${pStyle}`}>
                   Browse all reported lost and found items shared by our
                   community. Use the search bar to filter by title or location,
                   and sort posts by the most recent to quickly find what you're
@@ -140,20 +160,28 @@ const LostAndFoundItems = () => {
                   owners.
                </p>
                <div className="flex items-center mt-5 gap-2 md:gap-3 lg:gap-5 border-l-2 border-primary pl-1.5 mb-6">
-                  <p className="flex border border-[#14b0bba8] bg-[#14b0bb5e] rounded-sm px-1 py-0.5">
+                  <p
+                     className={`flex border bg-[#14b0bb5e] rounded-sm px-1 py-0.5 ${
+                        darkMode
+                           ? "border-[#14b0bba8]/30"
+                           : "border-[#14b0bba8]"
+                     }`}
+                  >
                      <BsFilterLeft className="text-3xl" />
                   </p>
                   <div className="flex w-full justify-between ">
                      <div className="flex items-center gap-2 md:gap-3">
                         <button
                            onClick={() => handelAll()}
-                           className={
-                              "btn py-1.5 px-6 bg-[#14b0bb5e] border border-[#14b0bba8] hover:border-primary text-xs lg:text-sm rounded-sm"
-                           }
+                           className={`btn py-1.5 px-6 bg-[#14b0bb5e] border hover:border-primary text-xs lg:text-sm rounded-sm ${
+                              darkMode
+                                 ? "border-[#14b0bba8]/30"
+                                 : "border-[#14b0bba8]"
+                           }`}
                         >
                            All
                         </button>
-                        <div className="select flex bg-[#14b0bb36] has-[select:focus]:outline-0 rounded-md">
+                        <div className="select flex bg-[#14b0bb36] has-[select:focus]:outline-0 has-[select:focus]:border-gray-600 rounded-md">
                            <select
                               name="category"
                               value={categoryValue}
@@ -165,7 +193,15 @@ const LostAndFoundItems = () => {
                                  {"- Choose Category -"}
                               </option>
                               {categories.map((cat) => (
-                                 <option key={cat} value={cat}>
+                                 <option
+                                    key={cat}
+                                    value={cat}
+                                    className={`${
+                                       darkMode
+                                          ? "bg-[#1e636879] text-gray-900 "
+                                          : "bg-[#14b0bb36]"
+                                    }`}
+                                 >
                                     {cat}
                                  </option>
                               ))}
@@ -219,7 +255,13 @@ const LostAndFoundItems = () => {
                   </div>
                ) : displayItemsData.length > 0 ? (
                   displayItemsData?.map((item) => (
-                     <ItemsCard key={item._id} item={item}></ItemsCard>
+                     <ItemsCard
+                        key={item._id}
+                        item={item}
+                        darkMode={darkMode}
+                        textHT={textHT}
+                        pStyle={pStyle}
+                     ></ItemsCard>
                   ))
                ) : (
                   <div

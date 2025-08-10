@@ -20,15 +20,10 @@ const HowItWorks = () => {
 
    //set heading and title text style
    const textHT = darkMode ? "text-gray-200" : "text-gray-900";
-   const textHT2 = darkMode ? "text-[#7fb1dc]" : "text-[#235480]";
 
    //set paragraph style
    const pStyle = darkMode ? "text-gray-400" : "text-gray-600";
 
-   //set button style
-   const btnStyle = darkMode
-      ? "bg-primary text-gray-800 hover:bg-[#0e7c83] hover:text-gray-300"
-      : "bg-primary text-gray-100 hover:bg-[#0e7c83]";
    return (
       <div className="relative">
          <div className="custom-shape-divider-bottom-1750006689">
@@ -147,9 +142,7 @@ const HowItWorks = () => {
                            }`}
                         />
                      </div>
-                     <h3 className={`text-xl font-semibold-2`}>
-                        {" "}
-                        ${textHT}
+                     <h3 className={`text-xl font-semibold mb-2 ${textHT}`}>
                         Real-Time Notifications
                      </h3>
                      <p className={`text-sm ${pStyle}`}>

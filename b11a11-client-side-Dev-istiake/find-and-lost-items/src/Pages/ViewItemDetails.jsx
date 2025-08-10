@@ -19,10 +19,25 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { Link } from "react-router";
 import useTitle from "../Hooks/useTitle";
+import ThemeContext from "../Provider/ThemeProvider/ThemeContext";
 
 const ViewItemDetails = () => {
    const { user } = useContext(AuthContext);
    const itemsData = useLoaderData();
+
+   // get theme control from Theme Context
+   const { theme } = useContext(ThemeContext);
+   const [darkMode, setDarkMode] = useState(false);
+
+   useEffect(() => {
+      setDarkMode(theme === "dark" ? true : false);
+   }, [setDarkMode, theme, darkMode]);
+
+   //set heading and title text style
+   const textHT = darkMode ? "text-gray-200" : "text-gray-900";
+
+   //set paragraph style
+   const pStyle = darkMode ? "text-gray-400" : "text-gray-600";
 
    //post data
    const {

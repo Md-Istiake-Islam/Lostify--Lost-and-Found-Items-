@@ -22,6 +22,8 @@ const Navbar = () => {
       setDarkMode(theme === "dark" ? true : false);
    }, [setDarkMode, theme, darkMode]);
 
+   const linkStyle = darkMode ? "text-gray-400" : "text-gray-700";
+
    const navigate = useNavigate();
    const { user, logOut, jwtReady } = useContext(AuthContext);
 
@@ -127,9 +129,7 @@ const Navbar = () => {
          <li className="!px-2">
             <NavLink
                to={`./user-profile`}
-               className={
-                  "!font-source-serif4 mt-2 mb-1 gap-3 hover:text-primary !py-2.5 rounded-lg text-gray-700"
-               }
+               className={`!font-source-serif4 mt-2 mb-1 gap-3 hover:text-primary !py-2.5 rounded-lg ${linkStyle}`}
             >
                <User className="w-5 h-5" />
                View Profile
@@ -138,9 +138,7 @@ const Navbar = () => {
          <li className="!px-2">
             <NavLink
                to={`./update-profile`}
-               className={
-                  "!font-source-serif4 mb-1 gap-3 hover:text-primary !py-2.5 rounded-lg text-gray-700"
-               }
+               className={`!font-source-serif4 mb-1 gap-3 hover:text-primary !py-2.5 rounded-lg ${linkStyle}`}
             >
                <RiDeviceRecoverLine className="text-xl" />
                Update Profile
@@ -149,9 +147,7 @@ const Navbar = () => {
          <li className="!px-2">
             <NavLink
                to={`./addItems`}
-               className={
-                  "!font-source-serif4 mb-1 gap-3 hover:text-primary !py-2.5 rounded-lg text-gray-700"
-               }
+               className={`!font-source-serif4 mb-1 gap-3 hover:text-primary !py-2.5 rounded-lg ${linkStyle}`}
             >
                <TiDocumentAdd className="text-xl" />
                Add Lost Items
@@ -160,20 +156,20 @@ const Navbar = () => {
          <li className="!px-2">
             <NavLink
                to={`./allRecovered`}
-               className={
-                  "!font-source-serif4 mb-1 gap-3 hover:text-primary !py-2.5 rounded-lg text-gray-700"
-               }
+               className={`!font-source-serif4 mb-1 gap-3 hover:text-primary !py-2.5 rounded-lg ${linkStyle}`}
             >
                <RiDeviceRecoverLine className="text-xl" />
                All Recovered Items
             </NavLink>
          </li>
-         <li className="!px-2 border-b border-gray-100 pb-2 mb-2">
+         <li
+            className={`!px-2 border-b  pb-2 mb-2 ${
+               darkMode ? "border-gray-700" : "border-gray-100"
+            }`}
+         >
             <NavLink
                to={`./myItems`}
-               className={
-                  "!font-source-serif4 gap-3 hover:text-primary !py-2.5 rounded-lg text-gray-700"
-               }
+               className={`!font-source-serif4 gap-3 hover:text-primary !py-2.5 rounded-lg ${linkStyle}`}
             >
                <RiAlignItemBottomFill className="text-xl" />
                Manage My Items
@@ -258,15 +254,27 @@ const Navbar = () => {
                         <Tooltip id="my-tooltip" className="z-50 text-sm" />
                         <ul
                            tabIndex={0}
-                           className="menu menu-md dropdown-content bg-base-100 rounded-box z-1 mt-3 min-w-72 p-0 pb-2 shadow font-medium top-[62px] border-gray-100 border border-t-0 origin-top !scale-x-100 !scale-y-0 group-focus-within:!scale-y-100 !block !transition-all !duration-600"
+                           className={`menu menu-md dropdown-content bg-base-100 rounded-box z-1 mt-3 min-w-72 p-0 pb-2 shadow font-medium top-[62px]  border border-t-0 origin-top !scale-x-100 !scale-y-0 group-focus-within:!scale-y-100 !block !transition-all !duration-600 ${
+                              darkMode ? "border-gray-800" : "border-gray-100"
+                           }`}
                         >
-                           <div className="p-4 border-b border-gray-100">
+                           <div
+                              className={`p-4 border-b ${
+                                 darkMode
+                                    ? "border-gray-700"
+                                    : "border-gray-100"
+                              }`}
+                           >
                               <div className="flex items-center space-x-3">
                                  {currentUser?.photo ? (
                                     <img
                                        src={currentUser?.photo}
                                        alt={currentUser?.name || "User"}
-                                       className="w-12 h-12 rounded-full object-cover border-2 border-gray-200"
+                                       className={`w-12 h-12 rounded-full object-cover border-2  ${
+                                          darkMode
+                                             ? "border-gray-600"
+                                             : "border-gray-200"
+                                       }`}
                                     />
                                  ) : (
                                     <div className="w-12 h-12 bg-gradient-to-br from-primary to-blue-400 rounded-full flex items-center justify-center">
@@ -274,10 +282,22 @@ const Navbar = () => {
                                     </div>
                                  )}
                                  <div>
-                                    <h3 className="font-semibold text-slate-800 text-lg">
+                                    <h3
+                                       className={`font-semibold  text-lg ${
+                                          darkMode
+                                             ? "text-slate-200"
+                                             : "text-slate-8000"
+                                       }`}
+                                    >
                                        {currentUser?.name || "User"}
                                     </h3>
-                                    <p className="text-xs text-gray-600">
+                                    <p
+                                       className={`text-xs  ${
+                                          darkMode
+                                             ? "text-gray-400"
+                                             : "text-gray-600"
+                                       }`}
+                                    >
                                        {currentUser?.email}
                                     </p>
                                  </div>
@@ -287,7 +307,9 @@ const Navbar = () => {
                            <li className="!px-2 ">
                               <button
                                  onClick={() => handelLogOut()}
-                                 className=" text-red-600 !py-2.5 hover:bg-red-50 rounded-lg"
+                                 className={`  !py-2.5 hover:bg-red-50 rounded-lg ${
+                                    darkMode ? "text-red-400" : "text-red-600"
+                                 }`}
                               >
                                  <CiLogout className="text-xl font-bold" />
                                  Log out
