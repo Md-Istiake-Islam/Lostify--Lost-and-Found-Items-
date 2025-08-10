@@ -10,9 +10,18 @@ import { AuthContext } from "../../Provider/AuthProvider";
 import Swal from "sweetalert2";
 import { Tooltip } from "react-tooltip";
 import axios from "axios";
-import { User } from "lucide-react";
+import { Moon, Sun, User } from "lucide-react";
+import ThemeContext from "../../Provider/ThemeProvider/ThemeContext";
 
 const Navbar = () => {
+   // get theme control from Theme Context
+   const { theme, toggleTheme } = useContext(ThemeContext);
+   const [darkMode, setDarkMode] = useState(false);
+
+   useEffect(() => {
+      setDarkMode(theme === "dark" ? true : false);
+   }, [setDarkMode, theme, darkMode]);
+
    const navigate = useNavigate();
    const { user, logOut, jwtReady } = useContext(AuthContext);
 
@@ -217,6 +226,16 @@ const Navbar = () => {
                <ul className="menu menu-horizontal px-1 text-lg font-medium text-gray-100 gap-1 items-center hidden lg:flex">
                   {navbarLinks}
                </ul>
+
+               {/* Toggle theme control */}
+               <button
+                  onClick={() => toggleTheme()}
+                  className={`p-2 rounded-lg transition-colors text-gray-400`}
+               >
+                  {darkMode ? <Sun size={25} /> : <Moon size={25} />}
+               </button>
+
+               {/* User login section */}
                <div className="flex items-center gap-5">
                   {user ? (
                      <div className="dropdown dropdown-end group relative">
