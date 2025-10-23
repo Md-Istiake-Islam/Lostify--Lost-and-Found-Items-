@@ -203,8 +203,26 @@ const UpdatePost = () => {
                         onChange={(e) => setPostTypeValue(e.target.value)}
                         required
                      >
-                        <option value="Lost">Lost</option>
-                        <option value="Found">Found</option>
+                        <option
+                           value="Lost"
+                           className={`${
+                              darkMode
+                                 ? "bg-[#1e636879] text-gray-900 "
+                                 : "bg-[#14b0bb36]"
+                           }`}
+                        >
+                           Lost
+                        </option>
+                        <option
+                           value="Found"
+                           className={`${
+                              darkMode
+                                 ? "bg-[#1e636879] text-gray-900 "
+                                 : "bg-[#14b0bb36]"
+                           }`}
+                        >
+                           Found
+                        </option>
                      </select>
                   </div>
                   <div className="flex flex-col gap-2 ">
@@ -252,7 +270,15 @@ const UpdatePost = () => {
                            {"-- Choose Category --"}
                         </option>
                         {categories.map((cat) => (
-                           <option key={cat} value={cat}>
+                           <option
+                              key={cat}
+                              value={cat}
+                              className={`${
+                                 darkMode
+                                    ? "bg-[#1e636879] text-gray-900 "
+                                    : "bg-[#14b0bb36]"
+                              }`}
+                           >
                               {cat}
                            </option>
                         ))}

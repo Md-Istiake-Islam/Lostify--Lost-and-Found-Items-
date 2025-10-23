@@ -1,8 +1,5 @@
 import React from "react";
 import { useNavigate } from "react-router";
-import { TbCategoryPlus } from "react-icons/tb";
-import { IoIosTimer } from "react-icons/io";
-import { IoLocationOutline } from "react-icons/io5";
 
 const LatestItemsCard = ({ item, darkMode, textHT, pStyle }) => {
    const navigate = useNavigate();
@@ -20,7 +17,7 @@ const LatestItemsCard = ({ item, darkMode, textHT, pStyle }) => {
             </figure>
             <div className="card-body pb-1 pr-0.5 pl-3 ">
                <h2
-                  className={` ${pStyle}line-clamp-1 ard-title text-xl lg:text-1xl ${textHT}`}
+                  className={` ${pStyle} line-clamp-1 card-title text-xl lg:text-1xl ${textHT}`}
                >
                   {title}
                </h2>

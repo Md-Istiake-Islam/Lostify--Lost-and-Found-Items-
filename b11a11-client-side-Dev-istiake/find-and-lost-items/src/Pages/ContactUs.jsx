@@ -126,7 +126,7 @@ const ContactUs = () => {
                      </label>
                      <textarea
                         name="message"
-                        className={`textarea textarea-ghost !border-1 w-full rounded-lg text-gray-300 ${inputStyle}`}
+                        className={`textarea textarea-ghost !border-1 w-full rounded-lg ${inputStyle}`}
                         rows="5"
                         placeholder="Write your message here..."
                         required

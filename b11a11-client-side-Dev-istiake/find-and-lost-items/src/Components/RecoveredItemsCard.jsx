@@ -28,16 +28,16 @@ const RecoveredItemsCard = ({ item, darkMode, textHT, pStyle }) => {
             </figure>
             <div className="card-body pb-2 pr-0.5 pl-3 ">
                <h2
-                  className={` ${pStyle}line-clamp-1 ard-title text-xl lg:text-1xl ${textHT}`}
+                  className={` ${pStyle} line-clamp-1 card-title text-lg xl:text-xl ${textHT}`}
                >
                   {title}
                </h2>
-               <p className="flex items-center gap-2 mt-1 text-xs lg:text-base text-gray-500">
+               <p className="flex items-center gap-2 mt-1 text-xs 2xl:text-base text-gray-500">
                   <TbCategoryPlus className="text-primary text-lg" />
                   <span className={`line-clamp-1 ${pStyle}`}>{category}</span>
                </p>
                <div className="flex lg:flex-col 2xl:flex-row gap-2 2xl:items-center w-full justify-between">
-                  <p className="flex items-center gap-2 text-xs lg:text-sm text-gray-500 border-b border-dashed border-primary pb-3">
+                  <p className="flex items-center gap-2 text-xs 2xl:text-sm text-gray-500 border-b border-dashed border-primary pb-3">
                      {" "}
                      <IoLocationOutline className="text-primary text-lg" />
                      <samp className={`line-clamp-1 ${pStyle}`}>
@@ -45,7 +45,7 @@ const RecoveredItemsCard = ({ item, darkMode, textHT, pStyle }) => {
                      </samp>
                   </p>
                   <p
-                     className={`flex items-center gap-2 text-xs lg:text-sm justify-end lg:justify-start 2xl:justify-end pb-3 min-w-[32%] ${pStyle}`}
+                     className={`flex items-center gap-2 text-xs 2xl:text-sm justify-end lg:justify-start 2xl:justify-end pb-3 min-w-[32%] ${pStyle}`}
                   >
                      {" "}
                      <IoIosTimer className="text-primary text-lg" />
