@@ -1,16 +1,25 @@
 import express from "express";
 import cors from "cors";
-import { MongoClient, ServerApiVersion, ObjectId } from "mongodb";
+import {
+   MongoClient,
+   ServerApiVersion,
+   ObjectId,
+   ClientSession,
+} from "mongodb";
 import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
 import "dotenv/config";
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3000;
 
 // Setup middleware,
 app.use(
    cors({
-      origin: ["http://localhost:5173", "https://lostify-app-1c967.web.app"],
+      origin: [
+         "http://localhost:5173",
+         "https://lostify-app-1c967.web.app",
+         "http://localhost:5174",
+      ],
       credentials: true,
    })
 );
@@ -109,6 +118,32 @@ const run = async () => {
          const email = req.query.email;
          const query = { email: email };
          const result = await usersCollection.findOne(query);
+         res.send(result);
+      });
+
+      //update user
+      app.patch("/update-user", verifyToken, async (req, res) => {
+         //get email userData from req
+         const email = req.query.email;
+         const userData = req.body;
+
+         //set query to update data
+         const query = { email: email };
+
+         //create update Doc and options
+         const updateDoc = {
+            $set: userData,
+         };
+         const options = {
+            upsert: true,
+         };
+
+         //try to update data
+         const result = await usersCollection.updateOne(
+            query,
+            updateDoc,
+            options
+         );
          res.send(result);
       });
 
@@ -272,10 +307,10 @@ const run = async () => {
       });
 
       // Check the express server is connected successfully to the MongoDB using MongoClient with Ping command
-      /* await client.db("admin").command({ ping: 1 });
+      await client.db("admin").command({ ping: 1 });
       console.log(
          "Pinged your deployment. You are successfully connected to MongoDB!"
-      ); */
+      );
    } finally {
    }
 };
