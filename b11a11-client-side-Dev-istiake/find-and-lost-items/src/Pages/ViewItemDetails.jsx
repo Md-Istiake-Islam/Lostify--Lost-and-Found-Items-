@@ -249,15 +249,17 @@ const ViewItemDetails = () => {
          .post(`${import.meta.env.VITE_serverUrl}/reports`, reportData, {
             withCredentials: true,
          })
-         .then(() => {
-            Swal.fire({
-               title: "Report Submitted!",
-               text: "Thank you for reporting. We will review this item.",
-               icon: "success",
-            });
-            setReportReason("");
-            setReportComment("");
-            reportModalRef.current?.close();
+         .then((res) => {
+            if (res.data.insertedId) {
+               Swal.fire({
+                  title: "Report Submitted!",
+                  text: "Thank you for reporting. We will review this item.",
+                  icon: "success",
+               });
+               setReportReason("");
+               setReportComment("");
+               reportModalRef.current?.close();
+            }
          })
          .catch((err) => {
             Swal.fire({
@@ -265,6 +267,7 @@ const ViewItemDetails = () => {
                text: err.response?.data?.message || "Something went wrong.",
                icon: "error",
             });
+            reportModalRef.current?.close();
          });
    };
    // -------------------------------------------------------

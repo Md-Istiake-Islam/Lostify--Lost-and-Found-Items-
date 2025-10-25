@@ -10,7 +10,7 @@ import { AuthContext } from "../../Provider/AuthProvider";
 import Swal from "sweetalert2";
 import { Tooltip } from "react-tooltip";
 import axios from "axios";
-import { Moon, Sun, User } from "lucide-react";
+import { Bug, Moon, Sun, User } from "lucide-react";
 import ThemeContext from "../../Provider/ThemeProvider/ThemeContext";
 
 const Navbar = () => {
@@ -163,7 +163,7 @@ const Navbar = () => {
             </NavLink>
          </li>
          <li
-            className={`!px-2 border-b  pb-2 mb-2 ${
+            className={`!px-2 ${
                darkMode ? "border-gray-700" : "border-gray-100"
             }`}
          >
@@ -173,6 +173,19 @@ const Navbar = () => {
             >
                <RiAlignItemBottomFill className="text-xl" />
                Manage My Items
+            </NavLink>
+         </li>
+         <li
+            className={`!px-2 border-b  pb-2 mb-2 ${
+               darkMode ? "border-gray-700" : "border-gray-100"
+            }`}
+         >
+            <NavLink
+               to={`./allReports`}
+               className={`!font-source-serif4 gap-3 hover:text-primary !py-2.5 rounded-lg ${linkStyle}`}
+            >
+               <Bug className="text-xl" />
+               Vew all Reports
             </NavLink>
          </li>
       </>
