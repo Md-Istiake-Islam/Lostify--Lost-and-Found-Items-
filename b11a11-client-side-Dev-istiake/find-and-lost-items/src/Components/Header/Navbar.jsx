@@ -176,6 +176,19 @@ const Navbar = () => {
             </NavLink>
          </li>
          <li
+            className={`!px-2 ${
+               darkMode ? "border-gray-700" : "border-gray-100"
+            }`}
+         >
+            <NavLink
+               to={`./allBlogs`}
+               className={`!font-source-serif4 gap-3 hover:text-primary !py-2.5 rounded-lg ${linkStyle}`}
+            >
+               <RiAlignItemBottomFill className="text-xl" />
+               Vew all Blogs
+            </NavLink>
+         </li>
+         <li
             className={`!px-2 border-b  pb-2 mb-2 ${
                darkMode ? "border-gray-700" : "border-gray-100"
             }`}

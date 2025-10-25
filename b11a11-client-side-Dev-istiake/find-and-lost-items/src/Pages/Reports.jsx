@@ -15,6 +15,7 @@ import {
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import ThemeContext from "../Provider/ThemeProvider/ThemeContext";
+import LoadingSpinner from "../Components/LoadingSpinner";
 
 dayjs.extend(relativeTime);
 
@@ -63,6 +64,10 @@ const Reports = () => {
          : reports.filter((report) => report.postType === filter);
 
    const postTypes = [...new Set(reports.map((r) => r.postType))];
+
+   if (loading) {
+      return <LoadingSpinner />;
+   }
 
    return (
       <div className={`min-h-screen ${bgPage} py-8`}>

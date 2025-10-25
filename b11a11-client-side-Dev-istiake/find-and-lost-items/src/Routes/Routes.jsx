@@ -20,6 +20,7 @@ import ContactUs from "../Pages/ContactUs";
 import UserProfilePage from "../Pages/ProfilePage";
 import EditProfilePage from "../Pages/EditProfilePage";
 import Reports from "../Pages/Reports";
+import Blogs from "../Pages/Blogs";
 
 const Routes = createBrowserRouter([
    {
@@ -165,6 +166,10 @@ const Routes = createBrowserRouter([
          {
             path: "allReports",
             Component: Reports,
+         },
+         {
+            path: "allBlogs",
+            Component: Blogs,
          },
       ],
    },
