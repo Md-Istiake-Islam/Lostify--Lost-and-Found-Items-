@@ -227,6 +227,48 @@ const ViewItemDetails = () => {
          });
    };
 
+   // ------------------- Report Feature -------------------
+   const [reportReason, setReportReason] = useState("");
+   const [reportComment, setReportComment] = useState("");
+   const reportModalRef = useRef(null);
+
+   const handleReportSubmit = (e) => {
+      e.preventDefault();
+      if (!reportReason) return;
+      const reportData = {
+         postId: _id,
+         postTitle: title,
+         postType,
+         reporterEmail: currentUser?.email,
+         reporterName: currentUser?.name,
+         reason: reportReason,
+         comment: reportComment,
+         date: new Date(),
+      };
+      axios
+         .post(`${import.meta.env.VITE_serverUrl}/reports`, reportData, {
+            withCredentials: true,
+         })
+         .then(() => {
+            Swal.fire({
+               title: "Report Submitted!",
+               text: "Thank you for reporting. We will review this item.",
+               icon: "success",
+            });
+            setReportReason("");
+            setReportComment("");
+            reportModalRef.current?.close();
+         })
+         .catch((err) => {
+            Swal.fire({
+               title: "Error!",
+               text: err.response?.data?.message || "Something went wrong.",
+               icon: "error",
+            });
+         });
+   };
+   // -------------------------------------------------------
+
    return (
       <div className="container lg:max-w-7xl mx-auto mt-14 pb-14 px-3 lg:px-0">
          <div>
@@ -301,7 +343,7 @@ const ViewItemDetails = () => {
                      {description}
                   </p>
 
-                  <div className="flex w-full items-center justify-between px-6">
+                  <div className="flex w-full items-center justify-between pl-6 pr-3">
                      <ul className="flex text-2xl gap-3 mt-3">
                         <li>
                            <a href="http://www.facebook.com" target="blank">
@@ -340,7 +382,7 @@ const ViewItemDetails = () => {
                            </a>
                         </li>
                      </ul>
-                     <div className="mt-4">
+                     <div className="mt-4 flex items-center gap-4">
                         <button
                            onClick={() => {
                               document.getElementById("my_modal_1").showModal();
@@ -368,6 +410,13 @@ const ViewItemDetails = () => {
                                  ? "Found This!"
                                  : "This is Mine!"}
                            </span>
+                        </button>
+                        {/* -------- Report Button -------- */}
+                        <button
+                           onClick={() => reportModalRef.current.showModal()}
+                           className="btn rounded-lg border border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
+                        >
+                           Report This Item
                         </button>
                      </div>
                   </div>
@@ -531,6 +580,53 @@ const ViewItemDetails = () => {
                         </div>
                      </form>
                   </div>
+               </div>
+            </dialog>
+
+            {/* ---------------- Report Modal ---------------- */}
+            <dialog className="modal" ref={reportModalRef}>
+               <div className="modal-box py-10 px-8 max-w-xl">
+                  <form method="dialog">
+                     <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+                        ✕
+                     </button>
+                  </form>
+                  <h3 className="font-extrabold text-2xl mb-4">
+                     Report This Item
+                  </h3>
+                  <form
+                     onSubmit={handleReportSubmit}
+                     className="flex flex-col gap-4"
+                  >
+                     <label className="label text-sm">Reason</label>
+                     <select
+                        value={reportReason}
+                        onChange={(e) => setReportReason(e.target.value)}
+                        className="input w-full border border-gray-300 rounded"
+                        required
+                     >
+                        <option value="">Select reason</option>
+                        <option value="Spam">Spam</option>
+                        <option value="Fraud">Fraud</option>
+                        <option value="Incorrect Info">Incorrect Info</option>
+                        <option value="Other">Other</option>
+                     </select>
+
+                     <label className="label text-sm">Comment (optional)</label>
+                     <textarea
+                        value={reportComment}
+                        onChange={(e) => setReportComment(e.target.value)}
+                        className="textarea w-full border border-gray-300 rounded"
+                        placeholder="Additional details..."
+                     ></textarea>
+
+                     <button
+                        className="btn bg-red-500 text-white hover:bg-red-600"
+                        type="submit"
+                     >
+                        Submit Report
+                     </button>
+                  </form>
                </div>
             </dialog>
          </div>
