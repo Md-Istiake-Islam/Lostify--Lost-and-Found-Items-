@@ -306,6 +306,44 @@ const run = async () => {
          res.send(result);
       });
 
+      // ---------------- Reports Collection ----------------
+      const reportsCollection = client
+         .db("lostAndFoundItemsDB")
+         .collection("reports");
+
+      // Post a new report
+      app.post("/reports", verifyToken, async (req, res) => {
+         try {
+            const reportData = req.body;
+            const result = await reportsCollection.insertOne(reportData);
+            res.send({ success: true, insertedId: result.insertedId });
+         } catch (error) {
+            res.status(500).send({ success: false, message: error.message });
+         }
+      });
+
+      // Get all reports
+      app.get("/reports", verifyToken, async (req, res) => {
+         try {
+            const result = await reportsCollection.find().toArray();
+            res.send(result);
+         } catch (error) {
+            res.status(500).send({ success: false, message: error.message });
+         }
+      });
+
+      // Get reports by reporter email
+      app.get("/myReports", verifyToken, async (req, res) => {
+         try {
+            const email = req.query.email;
+            const query = { reporterEmail: email };
+            const result = await reportsCollection.find(query).toArray();
+            res.send(result);
+         } catch (error) {
+            res.status(500).send({ success: false, message: error.message });
+         }
+      });
+
       // Check the express server is connected successfully to the MongoDB using MongoClient with Ping command
       await client.db("admin").command({ ping: 1 });
       console.log(
